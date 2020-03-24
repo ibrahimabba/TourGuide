@@ -1,25 +1,34 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  FlatList,
-  Image,
-  TouchableOpacity
-} from 'react-native';
+  FlatList} from 'react-native';
 import { useSelector } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
+import RenderedDestinations from '../components/RenderedDestinations';
+
 
 const Stack = createStackNavigator();
 
-const Favorites = ({ route, navigation }) => {
+
+const Favorites = ({ navigation }) => {
   const places = useSelector(state => state.placesreducer.places);
-  console.log();
+  const favoritePlaces = useSelector(state => state.placesreducer.favoritePlaces)
+
+  let favorites = [...favoritePlaces]
+  favorites.filter(fav => fav.favorite == true)
+  
+
 
   return (
-    <View>
-      <Text>Favarites</Text>
+    <View style={styles.container}>
+      <FlatList
+        data={favorites}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => (
+          <RenderedDestinations navigation={navigation} destination={item} />
+        )}
+      />
     </View>
   );
 };
@@ -47,24 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  card: {
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    shadowOpacity: 0.26,
-    elevation: 8,
-    backgroundColor: 'white',
-    padding: 10,
-    margin: 5,
-    borderRadius: 10,
-    height: 400,
-    width: 350
-  },
-  textview: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
   },
   text: {
     fontSize: 30
