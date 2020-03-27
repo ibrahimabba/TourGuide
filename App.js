@@ -7,6 +7,9 @@ import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import FavoriteNav from './screens/FavoriteNav';
 import HomeScreen from './screens/HomeScreen';
+import { enableScreens } from 'react-native-screens';
+
+enableScreens();
 
 const rootReducer = combineReducers({
   placesreducer: placesReducers
