@@ -85,7 +85,7 @@ const nigerianStates = [
         ],
         description:
           'The park is home to the largest collection of elephants in Nigeria and one of the largest in West Africa.  So yes, a large number of large mammals. The reserve is completely covered by Sudan savanna. Apart from the elephant, other animals that can be found here include impalas, leopards, exotic birds and baboons just to mention a few. Apart from seeing the animals, other activities at the park include mountain climbing and picnicking with family.',
-        favorite: true,
+        favorite: false,
         ratings: 2,
         latitude: '9.8543',
         longitude: '10.3030'
@@ -101,7 +101,7 @@ const nigerianStates = [
         ],
         description:
           'Although it is located in Yankari National Park, the Wikki warm spring deserves a mention of its own. The spring occurs naturally as a result of the geothermal activity that occurs below the park. The spring has a consistent temperature of 31°C with crystal clear water that flows gently into a sparkling lake. The lake is 200 metres long, 10 metres wide and about 2 metres deep making it perfect for a quick swim so be sure to bring along a swimming trunk.',
-        favorite: true,
+        favorite: false,
         ratings: 3,
         latitude: '9.8543',
         longitude: '10.3030'
@@ -117,7 +117,7 @@ const nigerianStates = [
         ],
         description:
           'Tunga Dutse is popular for the ancient engraving on the rocks. If you don’t believe me, look at the writing on the wall. The writings are large and cover a huge area on the sandstone embankment. The meaning and age of the inscriptions are yet to be determined but they are one of the most significant wall writings to be found in Bauchi and Nigeria in general.',
-        favorite: true,
+        favorite: false,
         ratings: 4,
         latitude: '9.8543',
         longitude: '10.3030'
@@ -127,3 +127,4 @@ const nigerianStates = [
 ];
 
 export default nigerianStates;
+
