@@ -53,7 +53,7 @@ const StatesScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={places}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <RenderdStates navigation={navigation} item={item} />
         )}

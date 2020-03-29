@@ -34,7 +34,8 @@ const RenderedDestinations = ({ navigation, destination }) => {
         onPress={() =>
           navigation.navigate('Destinations', {
             titleName: destination.title,
-            destination: destination
+            destination: destination,
+            destinationId: destination.id
           })
         }
       >
@@ -80,7 +81,7 @@ const Favorites = ({ navigation }) => {
     <View style={styles.container}>
       <FlatList
         data={favoriteDestinations}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <RenderedDestinations navigation={navigation} destination={item} />
         )}

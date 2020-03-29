@@ -81,7 +81,7 @@ const StatesDetailScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <FlatList
         data={destinations}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <RenderedDestinations
             navigation={navigation}
