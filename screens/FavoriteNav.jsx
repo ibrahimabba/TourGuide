@@ -10,6 +10,11 @@ import {
 import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
+import DestinationScreen from './DestinationScreen';
+import { useState } from 'react';
+import { Button } from 'react-native-paper';
+import { useEffect } from 'react';
+import { addFavorite } from '../store/actions/favorite';
 
 const Stack = createStackNavigator();
 
@@ -34,7 +39,8 @@ const RenderedDestinations = ({ navigation, destination }) => {
           navigation.navigate('Destinations', {
             titleName: destination.title,
             destination: destination,
-            FavId: destination.id
+            stateId: destination.stateId,
+            destinationId: destination.id
           })
         }
       >
@@ -75,12 +81,20 @@ const Favorites = ({ navigation }) => {
 
   const lists = favDest();
   const favoriteDestinations = lists.filter(list => list.favorite == true);
-console.log(favoriteDestinations)
+
+  if (favoriteDestinations.length === 0 || !favoriteDestinations) {
+    return (
+      <View style={styles.content}>
+        <Text>You have No favorites. Start Adding Some</Text>
+      </View>
+    )
+  }
+  
   return (
     <View style={styles.container}>
       <FlatList
         data={favoriteDestinations}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <RenderedDestinations navigation={navigation} destination={item} />
         )}
@@ -103,6 +117,14 @@ const FavoriteNav = () => {
       }}
     >
       <Stack.Screen name='Favorites' component={Favorites} />
+      <Stack.Screen
+        name='Destinations'
+        component={DestinationScreen}
+        options={({ route }) => {
+          const { titleName } = route.params;
+          return { title: titleName };
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -133,6 +155,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 30
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

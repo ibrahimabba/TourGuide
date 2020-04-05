@@ -1,10 +1,46 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useLayoutEffect } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableWithoutFeedback
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
+import { addFavorite } from '../store/actions/favorite';
 
 const DestinationScreen = ({ route, navigation }) => {
-  const { destination } = route.params;
+  const { destination, stateId, destinationId } = route.params;
 
+  const places = useSelector(state => state.placesreducer.places);
+
+  const stateIndex = places.findIndex(place => place.id == stateId);
+  const destIndex = places[stateIndex].destinations.findIndex(
+    dest => dest.id == destinationId
+  );
+
+  const isFav = places[stateIndex].destinations[destIndex].favorite;
+
+  const dispatch = useDispatch();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableWithoutFeedback
+          onPress={() => dispatch(addFavorite(stateId, destinationId))}
+        >
+          <View style={{ paddingRight: 25 }}>
+            <Ionicons
+              name={isFav ? 'ios-star' : 'ios-star-outline'}
+              size={30}
+              color={isFav ? 'yellow' : 'white'}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      )
+    });
+  }, [navigation, stateId, destinationId, isFav]);
   return (
     <ScrollView>
       <View>
@@ -24,11 +60,25 @@ const DestinationScreen = ({ route, navigation }) => {
             ))}
         </ScrollView>
       </View>
-      <View>
+      <View style={styles.card}>
+        <Text style={{ fontSize: 20, marginVertical: 0 }}>Descriptions</Text>
         <Text>{destination.description}</Text>
       </View>
     </ScrollView>
   );
 };
 
+const styles = StyleSheet.create({
+  card: {
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.26,
+    elevation: 8,
+    backgroundColor: 'white',
+    padding: 10,
+    margin: 5,
+    borderRadius: 10
+  }
+});
 export default DestinationScreen;

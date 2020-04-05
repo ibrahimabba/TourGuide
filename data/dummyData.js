@@ -45,7 +45,7 @@ const nigerianStates = [
         ],
         description:
           'The Gamji park has graduated from a simple garden to a full-blown tourist attraction and recreational centre. Kofar Gamji covers an area of 7000 metres and is decorated with architectural designs and sculptures as well as the magnificent Hall. There is sparse vegetation of mangrove and orchard trees. The dotted islands formed by River Kaduna that runs through the park as well as assorted flowers emphasize its beauty.',
-        favorite: true,
+        favorite: false,
         ratings: 2,
         latitude: '10.505703° N',
         longitude: '7.4falsefalse50919°N'
@@ -67,6 +67,8 @@ const nigerianStates = [
       }
     ]
   },
+
+
   {
     id: 2,
     title: 'Bauchi',
@@ -117,13 +119,14 @@ const nigerianStates = [
         ],
         description:
           'Tunga Dutse is popular for the ancient engraving on the rocks. If you don’t believe me, look at the writing on the wall. The writings are large and cover a huge area on the sandstone embankment. The meaning and age of the inscriptions are yet to be determined but they are one of the most significant wall writings to be found in Bauchi and Nigeria in general.',
-        favorite: true,
+        favorite: false,
         ratings: 4,
         latitude: '9.8543',
         longitude: '10.3030'
       }
     ]
   }
+
 ];
 
 export default nigerianStates;

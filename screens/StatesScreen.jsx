@@ -34,7 +34,7 @@ const RenderdStates = ({ item, navigation }) => {
             style={{
               width: '100%',
               height: '100%',
-              borderRadius: 10,
+              borderRadius: 8,
               justifyContent: 'flex-end'
             }}
           >
@@ -53,7 +53,7 @@ const StatesScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={places}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <RenderdStates navigation={navigation} item={item} />
         )}
@@ -76,15 +76,19 @@ const styles = StyleSheet.create({
     elevation: 6,
     backgroundColor: 'white',
     borderRadius: 10,
-    width: 150,
+    width: 160,
     height: 150,
     padding: 3,
-    margin: 10
+    margin: 23
   },
   title: {
+    flex: 0.6,
+    justifyContent:'center',
+    alignItems: 'center',
     color: 'white',
-    fontSize: 20,
-    padding: 6
+    fontSize: 22,
+    padding: 6,
+    margin: 25
   }
 });
 

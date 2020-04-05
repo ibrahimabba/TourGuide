@@ -7,11 +7,13 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 
-const RenderedDestinations = ({ navigation, destination }) => {
+
+const RenderedDestinations = ({ navigation, stateId, destination }) => {
   // ratings will loop for every ratings and return a list of Icons
+  const dispatch = useDispatch();
   const ratings = () => {
     const starList = [];
     for (let i = 0; i < destination.ratings; i++) {
@@ -29,8 +31,10 @@ const RenderedDestinations = ({ navigation, destination }) => {
         style={{ height: '90%', width: '100%' }}
         onPress={() =>
           navigation.navigate('Destinations', {
-            titleName: `${destination.title}`,
-            destination: destination
+            titleName: destination.title,
+            destination: destination,
+            stateId: stateId,
+            destinationId: destination.id
           })
         }
       >
@@ -48,6 +52,11 @@ const RenderedDestinations = ({ navigation, destination }) => {
         <Text style={{ marginVertical: 10, fontSize: 20 }}>
           {destination.title}
         </Text>
+        {/* <TouchableOpacity
+          onPress={() => dispatch(favoriteToggle(stateId, destination.id))}
+        >
+          <Ionicons name='ios-heart' size={25} color='pink' />
+        </TouchableOpacity> */}
         <View style={{ flexDirection: 'row' }}>
           {icons.map((icon, index) => (
             <View key={index}>{icon}</View>
@@ -60,18 +69,25 @@ const RenderedDestinations = ({ navigation, destination }) => {
 
 const StatesDetailScreen = ({ route, navigation }) => {
   const { itemId } = route.params;
-  const state = useSelector(state =>
+  const states = useSelector(state =>
     state.placesreducer.places.find(place => place.id == itemId)
   );
 
-  const destinations = state.destinations;
+  const destinations = states.destinations.sort((a, b) =>
+    a.id < b.id ? 1 : -1
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
         data={destinations}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <RenderedDestinations navigation={navigation} destination={item} />
+          <RenderedDestinations
+            navigation={navigation}
+            stateId={itemId}
+            destination={item}
+          />
         )}
       />
     </View>
