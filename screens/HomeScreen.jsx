@@ -8,7 +8,7 @@ import DestinationScreen from './DestinationScreen';
 
 const Stack = createStackNavigator();
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -24,9 +24,20 @@ const HomeScreen = () => {
       <Stack.Screen
         name='States'
         component={StatesScreen}
-        options={{
+        options={() => ({
+          headerLeft: () => (
+            <Ionicons
+              title='list'
+              name='ios-list'
+              color='white'
+              size={30}
+              onPress={() => {
+                navigation.toggleDrawer();
+              }}
+            />
+          ),
           title: 'States'
-        }}
+        })}
       />
       <Stack.Screen
         name='StatesDetails'

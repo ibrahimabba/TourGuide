@@ -48,7 +48,7 @@ const nigerianStates = [
         favorite: false,
         ratings: 2,
         latitude: '10.505703° N',
-        longitude: '7.450919° N'
+        longitude: '7.4falsefalse50919°N'
       },
       {
         id: 4,
@@ -67,6 +67,8 @@ const nigerianStates = [
       }
     ]
   },
+
+
   {
     id: 2,
     title: 'Bauchi',
@@ -124,7 +126,7 @@ const nigerianStates = [
       }
     ]
   }
+
 ];
 
 export default nigerianStates;
-

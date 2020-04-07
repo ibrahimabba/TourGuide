@@ -1,48 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { createStore, combineReducers } from 'redux';
-import placesReducers from './store/placesReducers';
+import * as Font from 'expo-font';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import placesReducers from './store/reducers/placesReducers';
 import { Provider } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
-import FavoriteNav from './screens/FavoriteNav';
-import HomeScreen from './screens/HomeScreen';
+import ReduxThunk from 'redux-thunk';
+import { enableScreens } from 'react-native-screens';
+import DrawerNavigator from './Navigation/Navigator';
+import authReducer from './store/reducers/authReducer';
+import { init } from './database/db';
+import { AppLoading } from 'expo';
+
+init()
+  .then(() => {
+    console.log('initialized database');
+  })
+  .catch(err => {
+    console.log('initializing db failed');
+    console.log(err);
+  });
+enableScreens();
 
 const rootReducer = combineReducers({
-  placesreducer: placesReducers
+  placesreducer: placesReducers,
+  authReducer: authReducer
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-const Tab = createMaterialBottomTabNavigator();
+const fetchFonts = () => {
+  return Font.loadAsync({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+  });
+};
 
 function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => {
+          setFontLoaded(true);
+        }}
+      />
+    );
+  }
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
-
-              if (route.name === 'Places') {
-                iconName = 'ios-pin';
-              } else if (route.name === 'Favorite') {
-                iconName = 'ios-heart';
-              }
-
-              // You can return any component that you like here!
-              return <Ionicons name={iconName} size={25} color={color} />;
-            }
-          })}
-          shifting={true}
-          // activeColor='#f0edf6'
-          // inactiveColor='#3e2465'
-          barStyle={{ backgroundColor: '#f4511e' }}
-        >
-          <Tab.Screen name='Places' component={HomeScreen} />
-          <Tab.Screen name='Favorite' component={FavoriteNav} />
-        </Tab.Navigator>
+        <DrawerNavigator />
       </NavigationContainer>
     </Provider>
   );

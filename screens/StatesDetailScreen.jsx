@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import { favoriteToggle } from '../store/favoriteActions';
 
 const RenderedDestinations = ({ navigation, stateId, destination }) => {
   // ratings will loop for every ratings and return a list of Icons

@@ -1,5 +1,5 @@
-import nigerianStates from '../data/dummyData';
-import { ADD_FAVORITE } from './favoriteActions';
+import nigerianStates from '../../data/dummyData';
+import { ADD_FAVORITE } from '../actions/favorite';
 const initialState = {
   places: nigerianStates
 };
@@ -22,14 +22,14 @@ const placesReducer = (state = initialState, action) => {
       const lists = favDest();
       const fav = lists.find(list => list.id == action.destinationId)
       const destIndex = lists.findIndex(list => list.id == action.destinationId);
-     
+      //below i copied old places into delState
       const delState = [...state.places]
- 
+      // below i deleted the old city state using splice 
       delState.splice(stateIndex, 1)
       const newState = {...state.places[stateIndex]}
-
+      //below i copied the old city destination into delDest
       const delDest = [...state.places[stateIndex].destinations]
-
+      // below i deleted the old city destination using splice
       delDest.splice(destIndex, 1)
       const newDest = {...state.places[stateIndex].destinations[destIndex]}
       

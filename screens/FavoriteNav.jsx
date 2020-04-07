@@ -35,6 +35,7 @@ const RenderedDestinations = ({ navigation, destination }) => {
           navigation.navigate('Destinations', {
             titleName: destination.title,
             destination: destination,
+            stateId: destination.stateId,
             destinationId: destination.id
           })
         }
@@ -76,6 +77,16 @@ const Favorites = ({ navigation }) => {
 
   const lists = favDest();
   const favoriteDestinations = lists.filter(list => list.favorite == true);
+
+  if (favoriteDestinations.length == 0) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontFamily: 'open-sans-bold', fontSize: 15 }}>
+          You Don't have any favorite yet
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
