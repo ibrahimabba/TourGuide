@@ -6,15 +6,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Authenticate from '../user/authenticate';
+import { useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = props => {
-  const [userToken, setUserToken] = useState(false);
+  const token = useSelector(state => state.authReducer.token);
 
-  if (userToken == true) {
+  if (token == null) {
     return <Authentication />;
   }
 

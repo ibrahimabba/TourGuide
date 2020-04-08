@@ -30,6 +30,7 @@ const RenderedDestinations = ({ navigation, destination }) => {
   return (
     <View style={styles.card}>
       <TouchableOpacity
+        // activeOpacity={0.9}
         style={{ height: '90%', width: '100%' }}
         onPress={() =>
           navigation.navigate('Destinations', {

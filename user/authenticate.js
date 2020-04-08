@@ -45,7 +45,7 @@ const formReducer = (state, action) => {
 
 const AuthScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
 
@@ -68,6 +68,13 @@ const AuthScreen = props => {
   }, [error]);
 
   const authHandler = async () => {
+    if (!formState.formIsValid) {
+      Alert.alert('Wrong input!', 'Please check the errors in the form.', [
+        { text: 'Okay' }
+      ]);
+      return;
+    }
+
     let action;
     if (isSignup) {
       action = signUp(
@@ -88,6 +95,7 @@ const AuthScreen = props => {
       //props.navigation.navigate('Shop');
     } catch (err) {
       setError(err.message);
+      setIsLoading(false);
     }
   };
 

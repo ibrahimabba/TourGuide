@@ -22,6 +22,7 @@ const RenderdStates = ({ item, navigation }) => {
         }}
       >
         <TouchableOpacity
+          activeOpacity={0.9}
           onPress={() =>
             navigation.navigate('StatesDetails', {
               titleName: `${item.title}`,
