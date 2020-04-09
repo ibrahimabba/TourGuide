@@ -46,9 +46,8 @@ const HomeScreen = ({route, navigation}) => {
         component={DestinationScreen}
         options={({ route }) => ({
           title: route.params.titleName,
-          headerRight: () => <Ionicons name='ios-heart' size={32} color='white' onPress={() =>{}}/>,
           headerStyle: {
-            backgroundColor: 'brown'
+            backgroundColor: 'red'
           }
         })}
 

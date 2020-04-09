@@ -1,143 +1,228 @@
-import React, { useCallback, useState } from 'react'
-import { Text, StyleSheet, View, TextInput, Button, KeyboardAvoidingView } from 'react-native'
-import { Card } from 'react-native-paper'
-import { ScrollView } from 'react-native-gesture-handler'
-import { useDispatch } from 'react-redux'
-import { signUp, loginUser } from '../store/actions/authActions'
+import React, { useState, useEffect, useReducer, useCallback } from 'react';
+import {
+  ScrollView,
+  View,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Button,
+  ActivityIndicator,
+  Alert,
+  TouchableOpacity,
+  Text
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useDispatch } from 'react-redux';
 
+import Input from '../components/Input';
+import Card from '../components/Card';
+import Colors from '../constants/Colors';
+import { loginUser, signUp } from '../store/actions/authActions';
+import { ImageBackground } from 'react-native';
 
-const Authenticate = ({ navigation }) => {
-    const [title, setTitle] = useState('')
-    const [isSignUp, setIsSignUp] = useState(false)
-    const [isValid, setIsValid] = useState(false)
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
-    const dispatch = useDispatch()
-
-    const authHandler = props => {
-        let action;
-        if (isSignUp) {
-            action = dispatch(signUp(email, password))
-        } else {
-            action = dispatch(loginUser(email, password))
-        }
+const formReducer = (state, action) => {
+  if (action.type === FORM_INPUT_UPDATE) {
+    const updatedValues = {
+      ...state.inputValues,
+      [action.input]: action.value
+    };
+    const updatedValidities = {
+      ...state.inputValidities,
+      [action.input]: action.isValid
+    };
+    let updatedFormIsValid = true;
+    for (const key in updatedValidities) {
+      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
+    return {
+      formIsValid: updatedFormIsValid,
+      inputValidities: updatedValidities,
+      inputValues: updatedValues
+    };
+  }
+  return state;
+};
 
+const AuthScreen = props => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+  const [isSignup, setIsSignup] = useState(false);
+  const dispatch = useDispatch();
 
-    const handleInputChange = useCallback((event) => {
-        const inputValue = event.target.value
-        if (inputValue.trim().length === 0) {
-            setIsValid(true)
-        } else {
-            setIsValid(false)
-        }
-        setTitle(inputValue)
-    })
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputValues: {
+      email: '',
+      password: ''
+    },
+    inputValidities: {
+      email: false,
+      password: false
+    },
+    formIsValid: false
+  });
 
-    return (
-        <KeyboardAvoidingView
-            behavior='padding'
-            keyboardVerticalOffset={50}
-            style={styles.content}>
-            <Card style={styles.authContainer}>
-                <ScrollView>
-                    <TextInput
-                        style={styles.input}
-                        id="email"
-                        placeholder="E-Mail"
-                        keyboardType="email-address"
-                        value={title}
-                        required
-                        email
-                        autoCapitalize="none"
-                        errorText="Please enter a valid email address."
-                        onInputChange={handleInputChange}
-                        initialValue=""
-                    />
-                    {/* {!formState.formIsValid && formState.touched && (
-                        <View style={styles.errorContainer}>
-                            <Text style={styles.errorText}>Please enter a valid email address</Text>
-                        </View>
-                    )} */}
+  useEffect(() => {
+    if (error) {
+      Alert.alert('An Error Occurred!', error, [{ text: 'Okay' }]);
+    }
+  }, [error]);
 
-                    {!isValid && 
-                        <View style={styles.errorContainer}>
-                            <Text style={styles.errorText}>Please enter a valid email address</Text>
-                        </View>
-                        }
-                    <TextInput
-                        style={styles.input}
-                        id="password"
-                        placeholder="Password"
-                        keyboardType="default"
-                        value={title}
-                        secureTextEntry
-                        required
-                        minLength={5}
-                        autoCapitalize="none"
-                        errorText="Please enter a valid password."
-                        onInputChange={handleInputChange}
-                        initialValue=""
-                        visible-password
-                    />
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            title={isSignUp ? 'Sign Up' : 'Login'}
-                            color='#C2185B'
-                            onPress={authHandler}
-                        />
-                    </View>
-                    <View style={styles.text}><Text style={{ color: 'red', marginTop: 10, fontSize: 15 }}>or</Text></View>
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            title={`Switch to ${isSignUp ? 'Login' : 'Sign Up'}`}
-                            color='#FFC107'
-                            onPress={() => {
-                                setIsSignUp(prevState => !prevState)
-                            }}
-                        />
-                    </View>
-                </ScrollView>
-            </Card>
-        </KeyboardAvoidingView>
-    )
-}
+  const authHandler = async () => {
+    let action;
+    if (isSignup) {
+      action = signUp(
+        formState.inputValues.email,
+        formState.inputValues.password
+      );
+    } else {
+      action = loginUser(
+        formState.inputValues.email,
+        formState.inputValues.password
+      );
+    }
+    setError(null);
+    setIsLoading(true);
+    try {
+      dispatch(action);
+      setIsLoading(false);
+      //props.navigation.navigate('Shop');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue, inputValidity) => {
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputValidity,
+        input: inputIdentifier
+      });
+    },
+    [dispatchFormState]
+  );
+
+  const Image = require('../assets/cropped/crop1.jpg')
+
+  return (
+    <ImageBackground source={Image} style={styles.image}>
+    <KeyboardAvoidingView
+      behavior='padding'
+      keyboardVerticalOffset={50}
+      style={styles.screen}
+    >
+      
+        <View style={styles.auth}>
+        {/* <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}> */}
+          <Card style={styles.authContainer}>
+            <ScrollView>
+              <Input
+                id='email'
+                label='E-Mail'
+                keyboardType='email-address'
+                required
+                email
+                autoCapitalize='none'
+                errorText='Please enter a valid email address.'
+                onInputChange={inputChangeHandler}
+                initialValue=''
+              />
+              <Input
+                id='password'
+                label='Password'
+                keyboardType='default'
+                secureTextEntry
+                required
+                minLength={5}
+                autoCapitalize='none'
+                errorText='Please enter a valid password.'
+                onInputChange={inputChangeHandler}
+                initialValue=''
+              />
+              <View style={styles.buttonContainer}>
+                {isLoading ? (
+                  <ActivityIndicator size='small' color={Colors.primary} />
+                ) : (
+                    <TouchableOpacity activeOpacity={0.6} onPress={authHandler}>
+                      <View style={styles.button}>
+                        <Text style={styles.buttonText}>
+                          {isSignup ? 'Sign Up' : 'Login'}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() => {
+                    setIsSignup(prevState => !prevState);
+                  }}
+                >
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: Colors.accent,
+                      padding: 2,
+                      borderRadius: 20
+                    }}
+                  >
+                    <Text style={styles.buttonText}>{`Switch to ${
+                      isSignup ? 'Login' : 'Sign Up'
+                      }`}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </Card>
+          </View>
+        {/* </LinearGradient> */}
+     
+    </KeyboardAvoidingView>
+    </ImageBackground>
+  );
+};
 
 const styles = StyleSheet.create({
-    content: {
-        width: '100%',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    input: {
-        paddingHorizontal: 2,
-        paddingVertical: 5,
-        borderBottomColor: '#ccc',
-        borderBottomWidth: 1
-    },
+  screen: {
+    flex: 1
+  },
+  auth: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover"
+  },
     authContainer: {
-        width: '80%',
-        maxWidth: 400,
-        height: 300,
-        maxHeight: 400,
-        padding: 20
-    },
-    errorContainer: {
-        marginVertical: 5
-    },
-    errorText: {
-        color: 'red',
-        fontSize: 13
+      width: '60%',
+      maxWidth: 400,
+      maxHeight: 400,
+      padding: 20,
+      backgroundColor:'white',
+      opacity:0.8
     },
     buttonContainer: {
-        marginTop: 25
+      marginTop: 10,
+      borderRadius: 10
     },
-    text: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 10
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#f4511e',
+      padding: 2,
+      borderRadius: 14
+    },
+    buttonText: {
+      color: 'white',
+      // fontFamily: 'open-sans',
+      fontSize: 18
     }
-})
+  });
 
-export default Authenticate
+export default AuthScreen;
