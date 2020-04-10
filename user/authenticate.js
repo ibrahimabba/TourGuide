@@ -17,6 +17,7 @@ import Input from '../components/Input';
 import Card from '../components/Card';
 import Colors from '../constants/Colors';
 import { loginUser, signUp } from '../store/actions/authActions';
+import { ImageBackground } from 'react-native';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -45,7 +46,7 @@ const formReducer = (state, action) => {
 
 const AuthScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState();
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
 
@@ -68,13 +69,6 @@ const AuthScreen = props => {
   }, [error]);
 
   const authHandler = async () => {
-    if (!formState.formIsValid) {
-      Alert.alert('Wrong input!', 'Please check the errors in the form.', [
-        { text: 'Okay' }
-      ]);
-      return;
-    }
-
     let action;
     if (isSignup) {
       action = signUp(
@@ -90,12 +84,11 @@ const AuthScreen = props => {
     setError(null);
     setIsLoading(true);
     try {
-      await dispatch(action);
+      dispatch(action);
       setIsLoading(false);
       //props.navigation.navigate('Shop');
     } catch (err) {
       setError(err.message);
-      setIsLoading(false);
     }
   };
 
@@ -111,77 +104,83 @@ const AuthScreen = props => {
     [dispatchFormState]
   );
 
+  const Image = require('../assets/cropped/crop1.jpg');
+
   return (
-    <KeyboardAvoidingView
-      behavior='padding'
-      keyboardVerticalOffset={50}
-      style={styles.screen}
-    >
-      <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
-        <Card style={styles.authContainer}>
-          <ScrollView>
-            <Input
-              id='email'
-              label='E-Mail'
-              keyboardType='email-address'
-              required
-              email
-              autoCapitalize='none'
-              errorText='Please enter a valid email address.'
-              onInputChange={inputChangeHandler}
-              initialValue=''
-            />
-            <Input
-              id='password'
-              label='Password'
-              keyboardType='default'
-              secureTextEntry
-              required
-              minLength={5}
-              autoCapitalize='none'
-              errorText='Please enter a valid password.'
-              onInputChange={inputChangeHandler}
-              initialValue=''
-            />
-            <View style={styles.buttonContainer}>
-              {isLoading ? (
-                <ActivityIndicator size='small' color={Colors.primary} />
-              ) : (
-                <TouchableOpacity activeOpacity={0.6} onPress={authHandler}>
-                  <View style={styles.button}>
-                    <Text style={styles.buttonText}>
-                      {isSignup ? 'Sign Up' : 'Login'}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={() => {
-                  setIsSignup(prevState => !prevState);
-                }}
-              >
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: Colors.accent,
-                    padding: 2,
-                    borderRadius: 20
+    <ImageBackground source={Image} style={styles.image}>
+      <KeyboardAvoidingView
+        behavior='padding'
+        keyboardVerticalOffset={50}
+        style={styles.screen}
+      >
+        <View style={styles.auth}>
+          {/* <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}> */}
+          <Card style={styles.authContainer}>
+            <ScrollView>
+              <Input
+                id='email'
+                label='E-Mail'
+                keyboardType='email-address'
+                required
+                email
+                autoCapitalize='none'
+                errorText='Please enter a valid email address.'
+                onInputChange={inputChangeHandler}
+                initialValue=''
+              />
+              <Input
+                id='password'
+                label='Password'
+                keyboardType='default'
+                secureTextEntry
+                required
+                minLength={5}
+                autoCapitalize='none'
+                errorText='Please enter a valid password.'
+                onInputChange={inputChangeHandler}
+                initialValue=''
+              />
+              <View style={styles.buttonContainer}>
+                {isLoading ? (
+                  <ActivityIndicator size='small' color={Colors.primary} />
+                ) : (
+                  <TouchableOpacity activeOpacity={0.6} onPress={authHandler}>
+                    <View style={styles.button}>
+                      <Text style={styles.buttonText}>
+                        {isSignup ? 'Sign Up' : 'Login'}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() => {
+                    setIsSignup(prevState => !prevState);
                   }}
                 >
-                  <Text style={styles.buttonText}>{`Switch to ${
-                    isSignup ? 'Login' : 'Sign Up'
-                  }`}</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </Card>
-      </LinearGradient>
-    </KeyboardAvoidingView>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: Colors.accent,
+                      padding: 2,
+                      borderRadius: 20
+                    }}
+                  >
+                    <Text style={styles.buttonText}>{`Switch to ${
+                      isSignup ? 'Login' : 'Sign Up'
+                    }`}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </Card>
+        </View>
+        {/* </LinearGradient> */}
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
@@ -189,16 +188,22 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1
   },
-  gradient: {
+  auth: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
+  image: {
+    flex: 1,
+    resizeMode: 'cover'
+  },
   authContainer: {
-    width: '80%',
+    width: '60%',
     maxWidth: 400,
     maxHeight: 400,
-    padding: 20
+    padding: 20,
+    backgroundColor: 'white',
+    opacity: 0.8
   },
   buttonContainer: {
     marginTop: 10,
@@ -209,11 +214,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#f4511e',
     padding: 2,
-    borderRadius: 20
+    borderRadius: 14
   },
   buttonText: {
     color: 'white',
-    fontFamily: 'open-sans',
+    // fontFamily: 'open-sans',
     fontSize: 18
   }
 });

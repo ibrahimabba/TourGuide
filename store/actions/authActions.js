@@ -2,6 +2,7 @@ import { InsertNewUser, fetchUsers } from '../../database/db';
 
 export const SIGNUP_USER = 'SIGN_UP_USER';
 export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 let randGen = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
@@ -55,4 +56,8 @@ export const loginUser = (email, password) => {
       throw err;
     }
   };
+};
+
+export const logout = () => {
+  return { type: LOGOUT_USER };
 };

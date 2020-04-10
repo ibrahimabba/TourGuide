@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
+import { Button, View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import FavoriteNav from '../screens/FavoriteNav';
 import { Ionicons } from '@expo/vector-icons';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList
+} from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Authenticate from '../user/authenticate';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/actions/authActions';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -14,13 +20,28 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = props => {
   const token = useSelector(state => state.authReducer.token);
-
+  const dispatch = useDispatch();
   if (token == null) {
     return <Authentication />;
   }
 
   return (
     <Drawer.Navigator
+      drawerContent={props => (
+        <DrawerContentScrollView {...props}>
+          <DrawerItemList {...props} />
+          <View style={{ flex: 1, padding: 50 }}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => dispatch(logout())}
+            >
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Logout</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </DrawerContentScrollView>
+      )}
       screenOptions={({ route }) => ({
         drawerIcon: () => {
           return <Ionicons name='md-home' size={25} color='#f4511e' />;
@@ -73,9 +94,24 @@ const Authentication = () => {
         }
       }}
     >
-      <Stack.Screen name='Authenticate' component={Authenticate} />
+      <Stack.Screen name='Welcome' component={Authenticate} />
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f4511e',
+    padding: 2,
+    borderRadius: 14
+  },
+  buttonText: {
+    color: 'white',
+    // fontFamily: 'open-sans',
+    fontSize: 18
+  }
+});
 
 export default DrawerNavigator;

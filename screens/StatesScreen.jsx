@@ -7,7 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   SafeAreaView,
-  Platform
+  Image
 } from 'react-native';
 import Constants from 'expo-constants';
 import { useSelector } from 'react-redux';
@@ -60,6 +60,7 @@ const StatesScreen = ({ navigation }) => {
         )}
         numColumns={2}
       />
+      
     </SafeAreaView>
   );
 };

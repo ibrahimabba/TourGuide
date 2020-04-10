@@ -70,6 +70,12 @@ const DestinationScreen = ({ route, navigation }) => {
         <Text style={{ fontSize: 20, marginVertical: 0 }}>Descriptions</Text>
         <Text>{destination.description}</Text>
       </View>
+      <Image
+        style={{ width: 300, height: 200 }}
+        source={{
+          uri: staticMapUrl
+        }}
+      />
     </ScrollView>
   );
 };
