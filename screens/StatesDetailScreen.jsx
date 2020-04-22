@@ -16,7 +16,7 @@ const RenderedDestinations = ({ navigation, stateId, destination }) => {
   const ratings = () => {
     const starList = [];
     for (let i = 0; i < destination.ratings; i++) {
-      starList.push(<Ionicons name='md-star' size={25} color='orange' />);
+      starList.push(<Ionicons name='ios-star-outline' size={25} color='orange' />);
     }
     return starList;
   };
@@ -47,19 +47,13 @@ const RenderedDestinations = ({ navigation, stateId, destination }) => {
           }}
         />
       </TouchableOpacity>
-
       <View style={styles.textview}>
         <Text style={{ marginVertical: 10, fontSize: 20 }}>
           {destination.title}
         </Text>
-        {/* <TouchableOpacity
-          onPress={() => dispatch(favoriteToggle(stateId, destination.id))}
-        >
-          <Ionicons name='ios-heart' size={25} color='pink' />
-        </TouchableOpacity> */}
         <View style={{ flexDirection: 'row' }}>
           {icons.map((icon, index) => (
-            <View key={index}>{icon}</View>
+            <View style={{padding:1.5}} key={index}>{icon}</View>
           ))}
         </View>
       </View>
@@ -101,17 +95,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   card: {
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    shadowOpacity: 0.26,
-    elevation: 8,
-    backgroundColor: 'white',
+    // shadowColor: 'black',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 6,
+    // shadowOpacity: 0.26,
+    elevation: 6,
+    backgroundColor: '#ffff',
     padding: 10,
     margin: 5,
     borderRadius: 10,
     height: 400,
-    width: 350
+    width: 365
   },
   textview: {
     flexDirection: 'row',

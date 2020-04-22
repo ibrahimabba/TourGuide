@@ -10,15 +10,17 @@ import DrawerNavigator from './Navigation/Navigator';
 import authReducer from './store/reducers/authReducer';
 import { init } from './database/db';
 import { AppLoading } from 'expo';
+import WelcomeScreen from './Navigation/Navigator';
+
 
 init()
-  .then(() => {
-    console.log('initialized database');
-  })
-  .catch(err => {
-    console.log('initializing db failed');
-    console.log(err);
-  });
+// init().then(() => {
+//     console.log('initialized database');
+//   })
+//   .catch(err => {
+//     console.log('initializing db failed');
+//     console.log(err);
+//   });
 enableScreens();
 
 const rootReducer = combineReducers({
@@ -50,7 +52,7 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <DrawerNavigator />
+        <WelcomeScreen />
       </NavigationContainer>
     </Provider>
   );

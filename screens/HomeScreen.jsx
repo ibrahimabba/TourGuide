@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import StatesDetailScreen from './StatesDetailScreen';
 import StatesScreen from './StatesScreen';
 import DestinationScreen from './DestinationScreen';
+import Map from './Map';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#f4511e'
+          backgroundColor: '#1e6885d2'
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -25,6 +26,9 @@ const HomeScreen = ({ navigation }) => {
         name='States'
         component={StatesScreen}
         options={() => ({
+          headerStyle: {
+            backgroundColor: '#477543d2'
+          },
           headerLeft: () => (
             <Ionicons
               title='list'
@@ -56,6 +60,11 @@ const HomeScreen = ({ navigation }) => {
             title: titleName
           };
         }}
+      />
+      <Stack.Screen
+        name='Map'
+        component={Map}
+      
       />
     </Stack.Navigator>
   );
