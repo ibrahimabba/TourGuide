@@ -50,6 +50,7 @@ const RenderdStates = ({ item, navigation }) => {
 const StatesScreen = ({ navigation }) => {
   const places = useSelector(state => state.placesreducer.places);
 
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -68,12 +69,13 @@ const StatesScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight
+    marginTop: Constants.statusBarHeight,
+    marginHorizontal:30
   },
   card: {
-    shadowColor: 'black',
+    // shadowColor: 'black',
     //shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
+    // shadowRadius: 6,
     //shadowOpacity: 0.26,
     elevation: 6,
     backgroundColor: 'white',

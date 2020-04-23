@@ -1,23 +1,20 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Image,
   ScrollView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Button,
+  TouchableOpacity
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { favoriteToggle } from '../store/actions/favorite';
 import { Ionicons } from '@expo/vector-icons';
-//import MapView from 'react-native-maps';
+import env from '../env';
 
 const DestinationScreen = ({ route, navigation }) => {
-  const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap
-  &markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318
-  &markers=color:red%7Clabel:C%7C40.718217,-73.998284
-  &key=AIzaSyAoSoEbh6gl5LFvsYweufdbeblBCC89qFI`;
-
   const { destination, stateId, destinationId } = route.params;
 
   const places = useSelector(state => state.placesreducer.places);
@@ -29,6 +26,7 @@ const DestinationScreen = ({ route, navigation }) => {
 
   const isFav = places[stateIndex].destinations[destIndex].favorite;
 
+  const staticMap = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/url-https%3A%2F%2Fwww.mapbox.com%2Fimg%2Frocket.png(${destination.longitude},${destination.latitude})/${destination.longitude},${destination.latitude},15/800x800?access_token=pk.eyJ1IjoiYWhtYWRlZSIsImEiOiJjazkxbzQ0aGUwMW8yM2tvdGJtNHBkODJyIn0.eya_AgrdGy4SbagBpVliKQ`;
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,11 +34,11 @@ const DestinationScreen = ({ route, navigation }) => {
         <TouchableWithoutFeedback
           onPress={() => dispatch(favoriteToggle(stateId, destinationId))}
         >
-          <View style={{ paddingRight: 15 }}>
+          <View style={{ paddingRight: 30 }}>
             <Ionicons
               name={isFav ? 'ios-heart' : 'ios-heart-empty'}
               size={30}
-              color='white'
+              color={isFav ? 'red' : 'yellow'}
             />
           </View>
         </TouchableWithoutFeedback>
@@ -70,12 +68,24 @@ const DestinationScreen = ({ route, navigation }) => {
         <Text style={{ fontSize: 20, marginVertical: 0 }}>Descriptions</Text>
         <Text>{destination.description}</Text>
       </View>
-      <Image
-        style={{ width: 300, height: 200 }}
-        source={{
-          uri: staticMapUrl
-        }}
-      />
+
+      <View style={styles.card2} activeOpacity={0.9}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('Map', {
+              long: destination.longitude,
+              lat: destination.latitude
+            })
+          }
+        >
+          <Image
+            style={{ width: 390, height: 300, borderRadius: 10 }}
+            source={{
+              uri: staticMap
+            }}
+          />
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -89,6 +99,17 @@ const styles = StyleSheet.create({
     elevation: 8,
     backgroundColor: 'white',
     padding: 10,
+    margin: 5,
+    borderRadius: 10
+  },
+  card2: {
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.26,
+    elevation: 8,
+    backgroundColor: 'white',
+    padding: 5,
     margin: 5,
     borderRadius: 10
   }

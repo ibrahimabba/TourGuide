@@ -1,8 +1,8 @@
-import { SIGNUP_USER, LOGIN_USER, LOGOUT_USER } from '../actions/authActions';
+import { SIGNUP_USER, LOGIN_USER, LOGOUT_USER, RESTORE_TOKEN } from '../actions/authActions';
 
 const initialState = {
-  userId: null,
-  token: null
+  token: null,
+  laoding: true
 };
 
 const authReducer = (state = initialState, action) => {
@@ -17,6 +17,12 @@ const authReducer = (state = initialState, action) => {
         userId: action.userLoginData.id,
         token: action.userLoginData.token
       };
+    case RESTORE_TOKEN:
+      return {
+        UserId: action.tokenData.id,
+        token: action.tokenData.token,
+        NewPassword: action.tokenData.newpassword
+      }
     case LOGOUT_USER:
       return initialState;
     default:

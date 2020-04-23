@@ -4,13 +4,11 @@ import {
   View,
   KeyboardAvoidingView,
   StyleSheet,
-  Button,
   ActivityIndicator,
   Alert,
   TouchableOpacity,
-  Text
+  Text,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 
 import Input from '../components/Input';
@@ -25,11 +23,11 @@ const formReducer = (state, action) => {
   if (action.type === FORM_INPUT_UPDATE) {
     const updatedValues = {
       ...state.inputValues,
-      [action.input]: action.value
+      [action.input]: action.value,
     };
     const updatedValidities = {
       ...state.inputValidities,
-      [action.input]: action.isValid
+      [action.input]: action.isValid,
     };
     let updatedFormIsValid = true;
     for (const key in updatedValidities) {
@@ -38,13 +36,13 @@ const formReducer = (state, action) => {
     return {
       formIsValid: updatedFormIsValid,
       inputValidities: updatedValidities,
-      inputValues: updatedValues
+      inputValues: updatedValues,
     };
   }
   return state;
 };
 
-const AuthScreen = props => {
+const AuthScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const [isSignup, setIsSignup] = useState(false);
@@ -53,13 +51,13 @@ const AuthScreen = props => {
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       email: '',
-      password: ''
+      password: '',
     },
     inputValidities: {
       email: false,
-      password: false
+      password: false,
     },
-    formIsValid: false
+    formIsValid: false,
   });
 
   useEffect(() => {
@@ -69,6 +67,12 @@ const AuthScreen = props => {
   }, [error]);
 
   const authHandler = async () => {
+    // if (!formState.formIsValid) {
+    //   Alert.alert('No input!', 'Please fill the form.', [
+    //     { text: 'Okay' },
+    //   ]);
+    //   return;
+    // }
     let action;
     if (isSignup) {
       action = signUp(
@@ -86,7 +90,6 @@ const AuthScreen = props => {
     try {
       dispatch(action);
       setIsLoading(false);
-      //props.navigation.navigate('Shop');
     } catch (err) {
       setError(err.message);
     }
@@ -98,7 +101,7 @@ const AuthScreen = props => {
         type: FORM_INPUT_UPDATE,
         value: inputValue,
         isValid: inputValidity,
-        input: inputIdentifier
+        input: inputIdentifier,
       });
     },
     [dispatchFormState]
@@ -109,12 +112,11 @@ const AuthScreen = props => {
   return (
     <ImageBackground source={Image} style={styles.image}>
       <KeyboardAvoidingView
-        behavior='padding'
+        behavior='height'
         keyboardVerticalOffset={50}
         style={styles.screen}
       >
         <View style={styles.auth}>
-          {/* <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}> */}
           <Card style={styles.authContainer}>
             <ScrollView>
               <Input
@@ -157,16 +159,17 @@ const AuthScreen = props => {
                 <TouchableOpacity
                   activeOpacity={0.6}
                   onPress={() => {
-                    setIsSignup(prevState => !prevState);
+                    setIsSignup((prevState) => !prevState);
                   }}
                 >
                   <View
                     style={{
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: Colors.accent,
+                      backgroundColor: '#ad9405f6',
                       padding: 2,
-                      borderRadius: 20
+                      margin:4,
+                      borderRadius: 20,
                     }}
                   >
                     <Text style={styles.buttonText}>{`Switch to ${
@@ -178,7 +181,6 @@ const AuthScreen = props => {
             </ScrollView>
           </Card>
         </View>
-        {/* </LinearGradient> */}
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -186,16 +188,16 @@ const AuthScreen = props => {
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1
+    flex: 1,
   },
   auth: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   image: {
     flex: 1,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   authContainer: {
     width: '60%',
@@ -203,24 +205,24 @@ const styles = StyleSheet.create({
     maxHeight: 400,
     padding: 20,
     backgroundColor: 'white',
-    opacity: 0.8
+    opacity: 0.8,
   },
   buttonContainer: {
     marginTop: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f4511e',
+    backgroundColor: '#471243f6',
     padding: 2,
-    borderRadius: 14
+    margin:4,
+    borderRadius: 14,
   },
   buttonText: {
     color: 'white',
-    // fontFamily: 'open-sans',
-    fontSize: 18
-  }
+    fontSize: 18,
+  },
 });
 
 export default AuthScreen;

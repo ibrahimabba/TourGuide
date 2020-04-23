@@ -82,8 +82,8 @@ const Favorites = ({ navigation }) => {
   if (favoriteDestinations.length == 0) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontFamily: 'open-sans-bold', fontSize: 15 }}>
-          You Don't have any favorite yet
+        <Text style={{ fontFamily: 'open-sans-bold', fontSize: 15, color:'#888' }}>
+          You Don't have any favorite yet. Start Adding Some
         </Text>
       </View>
     );
@@ -115,7 +115,13 @@ const FavoriteNav = () => {
         }
       }}
     >
-      <Stack.Screen name='Favorites' component={Favorites} />
+      <Stack.Screen name='Favorites' component={Favorites}
+           options={() => ({
+            headerStyle: {
+              backgroundColor: '#c5ab19f6'
+            }
+          })}
+      />
       <Stack.Screen
         name='Destinations'
         component={DestinationScreen}
