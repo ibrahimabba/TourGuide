@@ -168,7 +168,7 @@ const AuthScreen = (props) => {
                       justifyContent: 'center',
                       backgroundColor: '#ad9405f6',
                       padding: 2,
-                      margin:4,
+                      margin: 4,
                       borderRadius: 20,
                     }}
                   >
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#471243f6',
     padding: 2,
-    margin:4,
+    margin: 4,
     borderRadius: 14,
   },
   buttonText: {

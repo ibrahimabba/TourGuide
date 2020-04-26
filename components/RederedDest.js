@@ -9,36 +9,30 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import StarRating from 'react-native-star-rating';
-import { getRatings } from '../store/actions/ratings';
-import { setRatings, updateRatings } from '../database/db';
+
+import {
+  createRatings,
+  modifyRatings,
+  getRatings,
+} from '../store/actions/ratings';
 
 const RenderedDestinations = ({ navigation, stateId, destination }) => {
+  const [count, setCount] = useState();
   const ratingArray = useSelector((state) => state.ratingReducer.ratingsArray);
   const ratedDestination = ratingArray.find(
     (dest) => dest.destination == destination.title
   );
 
   let rate;
-
-  if (ratedDestination == undefined) {
-    rate = 0;
-  } else {
-    rate = ratedDestination.rate;
-  }
-
-  console.log(ratedDestination);
-  console.log(rate);
+  rate = ratedDestination ? ratedDestination.rate : 0;
+  // console.log(ratedDestination);
+  // console.log(rate);
 
   const dispatch = useDispatch();
-  const [starCount, setStarCount] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(getRatings());
-  }, [dispatch, getRatings, updateRatings]);
-
-  const handleStarPress = (rate) => {
-    setStarCount(rate);
-  };
+  }, [dispatch, count]);
 
   return (
     <View style={styles.card}>
@@ -67,10 +61,10 @@ const RenderedDestinations = ({ navigation, stateId, destination }) => {
         <Text style={{ marginVertical: 10, fontSize: 20 }}>
           {destination.title}
         </Text>
-        <Button
+        {/* <Button
           title='press'
-          onPress={() => updateRatings(destination.title, 2)}
-        />
+          onPress={() => updateRatings(ratedDestination.id, 2)}
+        /> */}
         <View style={{ flexDirection: 'row' }}>
           <StarRating
             disabled={false}
@@ -82,8 +76,10 @@ const RenderedDestinations = ({ navigation, stateId, destination }) => {
             maxStars={5}
             rating={rate}
             selectedStar={(rating) => {
-              setRatings(destination.title, rating);
-              //setStarCount(rating);
+              setCount(rating);
+              ratedDestination
+                ? dispatch(modifyRatings(ratedDestination.id, rating))
+                : dispatch(createRatings(destination.title, rating));
             }}
             fullStarColor={'orange'}
           />

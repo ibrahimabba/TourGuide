@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase('mydatabases.db');
+const db = SQLite.openDatabase('my.db');
 
 export const init = () => {
   const promise = new Promise((resolve, reject) => {
@@ -73,12 +73,11 @@ export const setRatings = (destination, rate) => {
   return promise;
 };
 
-export const updateRatings = (destination, rate) => {
+export const updateRatings = (destinationId, rate) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `UPDATE ratings SET rate = ${rate} WHERE destination = ${destination} VALUES (?, ?)`,
-        [rate, destination],
+        `UPDATE ratings SET rate = ${rate} WHERE id = ${destinationId};`,
         (_, result) => {
           resolve(result);
         },
