@@ -6,26 +6,21 @@ import placesReducers from './store/reducers/placesReducers';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import { enableScreens } from 'react-native-screens';
-import DrawerNavigator from './Navigation/Navigator';
 import authReducer from './store/reducers/authReducer';
-import { init } from './database/db';
+import { init, init2 } from './database/db';
 import { AppLoading } from 'expo';
 import WelcomeScreen from './Navigation/Navigator';
+import ratings from './store/reducers/ratings';
 
+init();
+init2();
 
-init()
-// init().then(() => {
-//     console.log('initialized database');
-//   })
-//   .catch(err => {
-//     console.log('initializing db failed');
-//     console.log(err);
-//   });
 enableScreens();
 
 const rootReducer = combineReducers({
   placesreducer: placesReducers,
-  authReducer: authReducer
+  authReducer: authReducer,
+  ratingReducer: ratings,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
@@ -33,7 +28,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const fetchFonts = () => {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
   });
 };
 

@@ -1,13 +1,15 @@
 import nigerianStates from '../../data/dummyData';
 import { ADD_FAVORITE } from '../actions/favorite';
 const initialState = {
-  places: nigerianStates
+  places: nigerianStates,
 };
 
 const placesReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_FAVORITE:
-      const stateIndex = state.places.findIndex(pl => pl.id == action.stateId);
+      const stateIndex = state.places.findIndex(
+        (pl) => pl.id == action.stateId
+      );
 
       const favDest = () => {
         let list = [];
@@ -18,9 +20,9 @@ const placesReducer = (state = initialState, action) => {
       };
 
       const lists = favDest();
-      const fav = lists.find(list => list.id == action.destinationId);
+      const fav = lists.find((list) => list.id == action.destinationId);
       const destIndex = lists.findIndex(
-        list => list.id == action.destinationId
+        (list) => list.id == action.destinationId
       );
       //below i copied old places into delState
       const delState = [...state.places];
@@ -38,10 +40,10 @@ const placesReducer = (state = initialState, action) => {
           places: [
             {
               ...newState,
-              destinations: [{ ...newDest, favorite: false }, ...delDest]
+              destinations: [{ ...newDest, favorite: false }, ...delDest],
             },
-            ...delState
-          ]
+            ...delState,
+          ],
         };
       } else {
         return {
@@ -50,11 +52,11 @@ const placesReducer = (state = initialState, action) => {
               ...newState,
               destinations: [
                 { ...newDest, favorite: true, stateId: action.stateId },
-                ...delDest
-              ]
+                ...delDest,
+              ],
             },
-            ...delState
-          ]
+            ...delState,
+          ],
         };
       }
 

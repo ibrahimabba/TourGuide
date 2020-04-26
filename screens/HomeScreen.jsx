@@ -14,21 +14,18 @@ const HomeScreen = ({ navigation }) => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#1e6885d2'
+          backgroundColor: '#1e6885d2',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: 'bold'
-        }
+          fontWeight: 'bold',
+        },
       }}
     >
       <Stack.Screen
         name='States'
         component={StatesScreen}
         options={() => ({
-          headerStyle: {
-            backgroundColor: '#477543d2'
-          },
           headerLeft: () => (
             <Ionicons
               title='list'
@@ -40,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
               }}
             />
           ),
-          title: 'States'
+          title: 'States',
         })}
       />
       <Stack.Screen
@@ -57,15 +54,11 @@ const HomeScreen = ({ navigation }) => {
         options={({ route }) => {
           const { titleName } = route.params;
           return {
-            title: titleName
+            title: titleName,
           };
         }}
       />
-      <Stack.Screen
-        name='Map'
-        component={Map}
-      
-      />
+      <Stack.Screen name='Map' component={Map} />
     </Stack.Navigator>
   );
 };
