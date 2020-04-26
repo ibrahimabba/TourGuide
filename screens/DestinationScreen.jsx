@@ -38,7 +38,7 @@ const DestinationScreen = ({ route, navigation }) => {
             <Ionicons
               name={isFav ? 'ios-heart' : 'ios-heart-empty'}
               size={30}
-              color={isFav ? 'red' : 'yellow'}
+              color={isFav ? 'white' : 'white'}
             />
           </View>
         </TouchableWithoutFeedback>

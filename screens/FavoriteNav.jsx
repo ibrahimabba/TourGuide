@@ -1,31 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   FlatList,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
-import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useSelector, useDispatch } from 'react-redux';
 import DestinationScreen from './DestinationScreen';
+import Map from './Map';
+import StarRating from 'react-native-star-rating';
 
 const Stack = createStackNavigator();
 
 const RenderedDestinations = ({ navigation, destination }) => {
-  // ratings will loop for every ratings and return a list of Icons
-  const ratings = () => {
-    const starList = [];
-    for (let i = 0; i < destination.ratings; i++) {
-      starList.push(<Ionicons name='md-star' size={25} color='orange' />);
-    }
-    return starList;
-  };
+  const dispatch = useDispatch();
+  const [starCount, setStarCount] = useState(0);
 
-  // stars holds the list of Icons
-  const icons = ratings();
+  const handleStarPress = (rate) => {
+    setStarCount(rate);
+  };
 
   return (
     <View style={styles.card}>
@@ -37,7 +34,7 @@ const RenderedDestinations = ({ navigation, destination }) => {
             titleName: destination.title,
             destination: destination,
             stateId: destination.stateId,
-            destinationId: destination.id
+            destinationId: destination.id,
           })
         }
       >
@@ -46,7 +43,7 @@ const RenderedDestinations = ({ navigation, destination }) => {
           style={{
             height: '100%',
             width: '100%',
-            borderRadius: 10
+            borderRadius: 10,
           }}
         />
       </TouchableOpacity>
@@ -56,9 +53,20 @@ const RenderedDestinations = ({ navigation, destination }) => {
           {destination.title}
         </Text>
         <View style={{ flexDirection: 'row' }}>
-          {icons.map((icon, index) => (
-            <View key={index}>{icon}</View>
-          ))}
+          <StarRating
+            disabled={false}
+            emptyStar={'ios-star-outline'}
+            fullStar={'ios-star'}
+            // halfStar={'ios-star-half'}
+            iconSet={'Ionicons'}
+            starSize={25}
+            maxStars={5}
+            rating={starCount}
+            selectedStar={(rating) => {
+              handleStarPress(rating);
+            }}
+            fullStarColor={'orange'}
+          />
         </View>
       </View>
     </View>
@@ -66,7 +74,7 @@ const RenderedDestinations = ({ navigation, destination }) => {
 };
 
 const Favorites = ({ navigation }) => {
-  const places = useSelector(state => state.placesreducer.places);
+  const places = useSelector((state) => state.placesreducer.places);
 
   const favDest = () => {
     let list = [];
@@ -77,12 +85,14 @@ const Favorites = ({ navigation }) => {
   };
 
   const lists = favDest();
-  const favoriteDestinations = lists.filter(list => list.favorite == true);
+  const favoriteDestinations = lists.filter((list) => list.favorite == true);
 
   if (favoriteDestinations.length == 0) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontFamily: 'open-sans-bold', fontSize: 15, color:'#888' }}>
+        <Text
+          style={{ fontFamily: 'open-sans-bold', fontSize: 15, color: '#888' }}
+        >
           You Don't have any favorite yet. Start Adding Some
         </Text>
       </View>
@@ -107,20 +117,22 @@ const FavoriteNav = () => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#f4511e'
+          backgroundColor: '#1e6885d2',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: 'bold'
-        }
+          fontWeight: 'bold',
+        },
       }}
     >
-      <Stack.Screen name='Favorites' component={Favorites}
-           options={() => ({
-            headerStyle: {
-              backgroundColor: '#c5ab19f6'
-            }
-          })}
+      <Stack.Screen
+        name='Favorites'
+        component={Favorites}
+        options={() => ({
+          headerStyle: {
+            backgroundColor: '#1e6885d2',
+          },
+        })}
       />
       <Stack.Screen
         name='Destinations'
@@ -130,6 +142,7 @@ const FavoriteNav = () => {
           return { title: titleName };
         }}
       />
+      <Stack.Screen name='Map' component={Map} />
     </Stack.Navigator>
   );
 };
@@ -138,7 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   card: {
     shadowColor: 'black',
@@ -151,16 +164,16 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     height: 400,
-    width: 350
+    width: 350,
   },
   textview: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   text: {
-    fontSize: 30
-  }
+    fontSize: 30,
+  },
 });
 
 export default FavoriteNav;
