@@ -67,12 +67,10 @@ const AuthScreen = (props) => {
   }, [error]);
 
   const authHandler = async () => {
-    // if (!formState.formIsValid) {
-    //   Alert.alert('No input!', 'Please fill the form.', [
-    //     { text: 'Okay' },
-    //   ]);
-    //   return;
-    // }
+    if (!formState.formIsValid) {
+      Alert.alert('No input!', 'Please fill the form.', [{ text: 'Okay' }]);
+      return;
+    }
     let action;
     if (isSignup) {
       action = signUp(
@@ -214,9 +212,8 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#471243f6',
+    backgroundColor: '#f4511e',
     padding: 2,
-    margin: 4,
     borderRadius: 14,
   },
   buttonText: {

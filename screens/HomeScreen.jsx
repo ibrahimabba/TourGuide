@@ -14,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#1e6885d2',
+          backgroundColor: '#277c41',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {

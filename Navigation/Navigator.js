@@ -45,7 +45,14 @@ const DrawerNavigator = (props) => {
       )}
       screenOptions={({ route }) => ({
         drawerIcon: () => {
-          return <Ionicons name='md-home' size={25} color='#1e6885d2' />;
+          let iconName;
+
+          if (route.name === 'Places') {
+            iconName = 'ios-pin';
+          } else if (route.name === 'Home') {
+            iconName = 'md-home';
+          }
+          return <Ionicons name={iconName} size={25} color='#277c41' />;
         },
       })}
     >
@@ -75,7 +82,7 @@ const TabNavigator = (props) => {
       shifting={true}
       // activeColor='#f0edf6'
       // inactiveColor='#3e2465'
-      barStyle={{ backgroundColor: '#1e6885d2' }}
+      barStyle={{ backgroundColor: '#277c41' }}
     >
       <Tab.Screen name='Places' component={HomeScreen} />
       <Tab.Screen name='Favorite' component={FavoriteNav} />
@@ -105,7 +112,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1e6885d2',
+    backgroundColor: '#277c41',
     padding: 2,
     borderRadius: 14,
   },

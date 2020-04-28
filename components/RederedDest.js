@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -25,8 +25,6 @@ const RenderedDestinations = ({ navigation, stateId, destination }) => {
 
   let rate;
   rate = ratedDestination ? ratedDestination.rate : 0;
-  // console.log(ratedDestination);
-  // console.log(rate);
 
   const dispatch = useDispatch();
 
@@ -61,10 +59,6 @@ const RenderedDestinations = ({ navigation, stateId, destination }) => {
         <Text style={{ marginVertical: 10, fontSize: 20 }}>
           {destination.title}
         </Text>
-        {/* <Button
-          title='press'
-          onPress={() => updateRatings(ratedDestination.id, 2)}
-        /> */}
         <View style={{ flexDirection: 'row' }}>
           <StarRating
             disabled={false}

@@ -12,8 +12,8 @@ const WelcomeScreen = (props) => {
             <Text
               style={{
                 fontSize: 40,
-                marginLeft: 45,
-                color: '#fff',
+                marginLeft: 0,
+                color: '#71cd3c',
                 fontFamily: 'open-sans-bold',
               }}
             >
@@ -24,7 +24,7 @@ const WelcomeScreen = (props) => {
             <Text
               style={{ color: '#fff', fontSize: 18, fontFamily: 'open-sans' }}
             >
-              Welcome to Nigeria's number one Tourist information system{' '}
+              Welcome to Nigeria's number one Tourist Destinations{' '}
             </Text>
           </View>
         </View>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#21c271d2',
+    backgroundColor: '#71cd3c',
     padding: 5,
     borderRadius: 8,
   },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     padding: 50,
   },
   text: {
-    padding: 45,
+    padding: 20,
     marginTop: 45,
   },
   text2: {

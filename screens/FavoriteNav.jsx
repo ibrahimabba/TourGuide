@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,20 +14,34 @@ import DestinationScreen from './DestinationScreen';
 import Map from './Map';
 import StarRating from 'react-native-star-rating';
 
+import {
+  createRatings,
+  modifyRatings,
+  getRatings,
+} from '../store/actions/ratings';
+
 const Stack = createStackNavigator();
 
 const RenderedDestinations = ({ navigation, destination }) => {
-  const dispatch = useDispatch();
-  const [starCount, setStarCount] = useState(0);
+  const [count, setCount] = useState();
+  const ratingArray = useSelector((state) => state.ratingReducer.ratingsArray);
+  const ratedDestination = ratingArray.find(
+    (dest) => dest.destination == destination.title
+  );
 
-  const handleStarPress = (rate) => {
-    setStarCount(rate);
-  };
+  let rate;
+  rate = ratedDestination ? ratedDestination.rate : 0;
+
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    dispatch(getRatings());
+  }, [dispatch, count]);
 
   return (
     <View style={styles.card}>
       <TouchableOpacity
-        // activeOpacity={0.9}
+        activeOpacity={0.9}
         style={{ height: '90%', width: '100%' }}
         onPress={() =>
           navigation.navigate('Destinations', {
@@ -61,9 +75,12 @@ const RenderedDestinations = ({ navigation, destination }) => {
             iconSet={'Ionicons'}
             starSize={25}
             maxStars={5}
-            rating={starCount}
+            rating={rate}
             selectedStar={(rating) => {
-              handleStarPress(rating);
+              setCount(rating);
+              ratedDestination
+                ? dispatch(modifyRatings(ratedDestination.id, rating))
+                : dispatch(createRatings(destination.title, rating));
             }}
             fullStarColor={'orange'}
           />
@@ -90,10 +107,8 @@ const Favorites = ({ navigation }) => {
   if (favoriteDestinations.length == 0) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text
-          style={{ fontFamily: 'open-sans-bold', fontSize: 15, color: '#888' }}
-        >
-          You Don't have any favorite yet. Start Adding Some
+        <Text style={{ fontFamily: 'open-sans-bold', fontSize: 15 }}>
+          You Don't have any favorite yet
         </Text>
       </View>
     );
@@ -117,7 +132,7 @@ const FavoriteNav = () => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#1e6885d2',
+          backgroundColor: '#277c41',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -130,7 +145,7 @@ const FavoriteNav = () => {
         component={Favorites}
         options={() => ({
           headerStyle: {
-            backgroundColor: '#1e6885d2',
+            backgroundColor: '#277c41',
           },
         })}
       />
