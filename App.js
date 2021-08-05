@@ -9,7 +9,7 @@ import { enableScreens } from 'react-native-screens';
 import authReducer from './store/reducers/authReducer';
 import { init, init2 } from './database/db';
 import { AppLoading } from 'expo';
-import WelcomeScreen from './Navigation/Navigator';
+import Navigator from './Navigation/Navigator';
 import ratings from './store/reducers/ratings';
 
 init();
@@ -47,7 +47,7 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <WelcomeScreen />
+        <Navigator />
       </NavigationContainer>
     </Provider>
   );

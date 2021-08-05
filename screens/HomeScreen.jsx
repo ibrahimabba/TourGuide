@@ -23,14 +23,14 @@ const HomeScreen = ({ navigation }) => {
       }}
     >
       <Stack.Screen
-        name='States'
+        name="States"
         component={StatesScreen}
         options={() => ({
           headerLeft: () => (
             <Ionicons
-              title='list'
-              name='ios-list'
-              color='white'
+              title="list"
+              name="ios-list"
+              color="white"
               size={30}
               onPress={() => {
                 navigation.toggleDrawer();
@@ -41,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
         })}
       />
       <Stack.Screen
-        name='StatesDetails'
+        name="StatesDetails"
         component={StatesDetailScreen}
         options={({ route }) => {
           const { titleName } = route.params;
@@ -49,7 +49,7 @@ const HomeScreen = ({ navigation }) => {
         }}
       />
       <Stack.Screen
-        name='Destinations'
+        name="Destinations"
         component={DestinationScreen}
         options={({ route }) => {
           const { titleName } = route.params;
@@ -58,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
           };
         }}
       />
-      <Stack.Screen name='Map' component={Map} />
+      <Stack.Screen name="Map" component={Map} />
     </Stack.Navigator>
   );
 };
