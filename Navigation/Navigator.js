@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { Button, View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
+import MainStackNav from '../screens/MainStackNav';
 import FavoriteNav from '../screens/FavoriteNav';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Authenticate from '../user/authenticate';
 import WelcomeScreen from '../components/WelcomeScreen';
@@ -32,10 +28,7 @@ const DrawerNavigator = (props) => {
         <DrawerContentScrollView {...props}>
           <DrawerItemList {...props} />
           <View style={{ flex: 1, padding: 50 }}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              onPress={() => dispatch(logout())}
-            >
+            <TouchableOpacity activeOpacity={0.6} onPress={() => dispatch(logout())}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>Logout</Text>
               </View>
@@ -52,12 +45,12 @@ const DrawerNavigator = (props) => {
           } else if (route.name === 'Home') {
             iconName = 'md-home';
           }
-          return <Ionicons name={iconName} size={25} color='#277c41' />;
+          return <Ionicons name={iconName} size={25} color="#277c41" />;
         },
       })}
     >
-      <Drawer.Screen name='Home' component={WelcomeScreen} />
-      <Drawer.Screen name='Places' component={TabNavigator} />
+      <Drawer.Screen name="Home" component={WelcomeScreen} />
+      <Drawer.Screen name="Places" component={TabNavigator} />
     </Drawer.Navigator>
   );
 };
@@ -84,8 +77,8 @@ const TabNavigator = (props) => {
       // inactiveColor='#3e2465'
       barStyle={{ backgroundColor: '#277c41' }}
     >
-      <Tab.Screen name='Places' component={HomeScreen} />
-      <Tab.Screen name='Favorite' component={FavoriteNav} />
+      <Tab.Screen name="Places" component={MainStackNav} />
+      <Tab.Screen name="Favorite" component={FavoriteNav} />
     </Tab.Navigator>
   );
 };
@@ -103,7 +96,7 @@ const Authentication = () => {
         },
       }}
     >
-      <Stack.Screen name='Welcome' component={Authenticate} />
+      <Stack.Screen name="Welcome" component={Authenticate} />
     </Stack.Navigator>
   );
 };

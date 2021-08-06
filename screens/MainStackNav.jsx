@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
 import StatesDetailScreen from './StatesDetailScreen';
 import StatesScreen from './StatesScreen';
 import DestinationScreen from './DestinationScreen';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import CustomHeaderButton from '../components/HeaderButton';
 import Map from './Map';
 
 const Stack = createStackNavigator();
@@ -25,19 +25,19 @@ const HomeScreen = ({ navigation }) => {
       <Stack.Screen
         name="States"
         component={StatesScreen}
-        options={() => ({
+        options={({ route, navigation }) => ({
           headerLeft: () => (
-            <Ionicons
-              title="list"
-              name="ios-list"
-              color="white"
-              size={30}
-              onPress={() => {
-                navigation.toggleDrawer();
-              }}
-            />
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+              <Item
+                title='Menu'
+                iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                onPress={() => {
+                  navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons>
           ),
-          title: 'States',
+          title: 'Welcome to Tour9ja',
         })}
       />
       <Stack.Screen
