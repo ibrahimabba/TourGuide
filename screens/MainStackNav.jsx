@@ -6,15 +6,16 @@ import DestinationScreen from './DestinationScreen';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/HeaderButton';
 import Map from './Map';
+import HomeScreen from './HomeScreen';
 
 const Stack = createStackNavigator();
 
-const HomeScreen = ({ navigation }) => {
+const MainStackNav = ({ navigation }) => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#277c41',
+          backgroundColor: '#082032',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -23,13 +24,13 @@ const HomeScreen = ({ navigation }) => {
       }}
     >
       <Stack.Screen
-        name="States"
-        component={StatesScreen}
+        name="HomeScreen"
+        component={HomeScreen}
         options={({ route, navigation }) => ({
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
               <Item
-                title='Menu'
+                title="Menu"
                 iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                 onPress={() => {
                   navigation.toggleDrawer();
@@ -38,6 +39,13 @@ const HomeScreen = ({ navigation }) => {
             </HeaderButtons>
           ),
           title: 'Welcome to Tour9ja',
+        })}
+      />
+      <Stack.Screen
+        name="States"
+        component={StatesScreen}
+        options={({}) => ({
+          title: 'States',
         })}
       />
       <Stack.Screen
@@ -63,4 +71,4 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-export default HomeScreen;
+export default MainStackNav;

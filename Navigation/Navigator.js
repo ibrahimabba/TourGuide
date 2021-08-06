@@ -3,7 +3,7 @@ import { Button, View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MainStackNav from '../screens/MainStackNav';
 import FavoriteNav from '../screens/FavoriteNav';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Authenticate from '../user/authenticate';
@@ -18,9 +18,9 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = (props) => {
   const token = useSelector((state) => state.authReducer.token);
   const dispatch = useDispatch();
-  if (token == null) {
-    return <Authentication />;
-  }
+  // if (token == null) {
+  //   return <Authentication />;
+  // }
 
   return (
     <Drawer.Navigator
@@ -60,24 +60,19 @@ const TabNavigator = (props) => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === 'Places') {
-            iconName = 'ios-pin';
+          if (route.name === 'Home') {
+            return <AntDesign name="home" size={24} color={color} />;
           } else if (route.name === 'Favorite') {
-            iconName = 'ios-heart';
+            return <Ionicons name={'ios-heart'} size={25} color={color} />;
           }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={25} color={color} />;
         },
       })}
       shifting={true}
       // activeColor='#f0edf6'
       // inactiveColor='#3e2465'
-      barStyle={{ backgroundColor: '#277c41' }}
+      barStyle={{ backgroundColor: '#082032' }}
     >
-      <Tab.Screen name="Places" component={MainStackNav} />
+      <Tab.Screen name="Home" component={MainStackNav} />
       <Tab.Screen name="Favorite" component={FavoriteNav} />
     </Tab.Navigator>
   );
