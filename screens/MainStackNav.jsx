@@ -7,6 +7,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/HeaderButton';
 import Map from './Map';
 import HomeScreen from './HomeScreen';
+import Places from './place-screens/Places';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,13 @@ const MainStackNav = ({ navigation }) => {
         component={StatesScreen}
         options={({}) => ({
           title: 'States',
+        })}
+      />
+      <Stack.Screen
+        name="Places"
+        component={Places}
+        options={({}) => ({
+          title: 'Places',
         })}
       />
       <Stack.Screen
