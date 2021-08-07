@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Card from '../components/Card';
@@ -8,7 +8,11 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Card style={styles.card}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Places');
+          }}
+        >
           <View style={styles.cardContent}>
             <AntDesign name="enviromento" size={34} color="black" />
             <Text style={{ textAlign: 'center', width: '90%' }}>See the most interesting Destinations around you</Text>
