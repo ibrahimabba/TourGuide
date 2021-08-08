@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, FlatList } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput, FlatList, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import DATA from '../../data/placesDummyData';
-import PlacesRenderItem from '../../components/PlacesRenderItem';
+import Card from '../../components/Card';
+import env from '../../env';
+import StarRating from 'react-native-star-rating';
+//import PlacesRenderItem from '../../components/PlacesRenderItem';
 import { fetchPlaces } from '../../store/actions/googlelPlacesActions';
+import NoPhoto from '../../assets/Placeholder-small.png';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Location from 'expo-location';
+import PlaceSearchComponent from '../../components/PlaceSearchComponent';
 
 const Places = ({ navigation }) => {
   const googlePlacesReducer = useSelector((state) => state.googlePlacesReducer);
   const [errorMsg, setErrorMsg] = useState(null);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,24 +30,55 @@ const Places = ({ navigation }) => {
     })();
   }, []);
 
+  const PlacesRenderItem = ({ item }) => {
+    return (
+      <Card style={styles.itemCard}>
+        <TouchableOpacity onPress={() => {}}>
+          <View
+            style={{
+              borderRadius: 10,
+              overflow: 'hidden',
+            }}
+          >
+            <Image
+              style={{ width: 140, height: 100 }}
+              source={
+                item.photos
+                  ? {
+                      uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.photos[0].photo_reference}&key=${env.googleApiKey}`,
+                    }
+                  : NoPhoto
+              }
+            />
+
+            <View style={styles.cardInfo}>
+              <Text style={styles.name}>{item.name.slice(0, 29)}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <StarRating disabled={true} emptyStar={'ios-star-outline'} fullStar={'ios-star'} halfStar={'ios-star-half'} iconSet={'Ionicons'} starSize={10} maxStars={5} rating={item.rating} fullStarColor={'orange'} />
+                <Text style={styles.ratingStyles}>{item.rating}</Text>
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Card>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.textInputView}>
-        <AntDesign name="search1" size={24} color="black" />
-        <TextInput style={styles.searchText} placeholder="Search Places" />
-      </View>
-
+      <PlaceSearchComponent />
       <View style={styles.flatListsView}>
         <View style={styles.flatList}>
-          <Text style={styles.flatListHeaderText}>Nearby Resturants</Text>
+          <Text style={styles.flatListHeaderText}>Nearby Hotels and Establishments</Text>
+
           <View style={styles.flatListCont}>
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.places} renderItem={PlacesRenderItem} keyExtractor={(item) => item.place_id} />
+            {googlePlacesReducer.isLoading ? <ActivityIndicator color={'#F2F2F2'} size={'large'} /> : <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.hotelsAndEstablishments} renderItem={PlacesRenderItem} keyExtractor={(item) => item.place_id} />}
           </View>
         </View>
         <View style={styles.flatList}>
-          <Text style={styles.flatListHeaderText}>Nearby Hotels and Establishments</Text>
+          <Text style={styles.flatListHeaderText}>Nearby Resturants and Cafes</Text>
           <View style={styles.flatListCont}>
-            <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.places} renderItem={PlacesRenderItem} keyExtractor={(item) => item.place_id} />
+            {googlePlacesReducer.isLoading ? <ActivityIndicator color={'#F2F2F2'} size={'large'} /> : <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.resturants} renderItem={PlacesRenderItem} keyExtractor={(item) => item.place_id} />}
           </View>
         </View>
       </View>
@@ -54,7 +88,7 @@ const Places = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F2F2F2',
     alignItems: 'center',
     padding: '5%',
   },
@@ -87,12 +121,25 @@ const styles = StyleSheet.create({
   flatListCont: {
     width: '100%',
     height: '86.7%',
+    alignItems: 'center',
+    justifyContent: 'center',
     //backgroundColor: 'orange',
   },
   itemCard: {
     //height: '100%',
     //width: '40%',
     margin: 10,
+  },
+  cardInfo: {
+    marginHorizontal: 7,
+    marginTop: 0,
+  },
+  ratingStyles: {
+    color: 'orange',
+    marginLeft: 2,
+  },
+  name: {
+    width: 110,
   },
 });
 
