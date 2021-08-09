@@ -13,6 +13,7 @@ const PlaceSearchComponent = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleFetchAutoComplete = (text) => {
+    setSelectedAddress();
     dispatch(autoComplete({ text }));
   };
   const handleSelectPlace = async (address) => {
@@ -37,7 +38,7 @@ const PlaceSearchComponent = ({ navigation }) => {
         <AntDesign name="search1" size={24} color="black" />
         <TextInput
           onFocus={() => {
-            setFocus(true);
+            setFocus((prevState) => !prevState);
           }}
           style={styles.searchText}
           placeholder="Search Places"
