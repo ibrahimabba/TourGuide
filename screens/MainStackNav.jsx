@@ -8,6 +8,7 @@ import CustomHeaderButton from '../components/HeaderButton';
 import Map from './Map';
 import HomeScreen from './HomeScreen';
 import Places from './place-screens/Places';
+import PlaceDetails from './place-screens/PlaceDetails';
 
 const Stack = createStackNavigator();
 
@@ -55,6 +56,14 @@ const MainStackNav = ({ navigation }) => {
         options={({}) => ({
           title: 'Places',
         })}
+      />
+      <Stack.Screen
+        name="PlaceDetails"
+        component={PlaceDetails}
+        options={({ route }) => {
+          const { titleName } = route.params;
+          return { title: titleName };
+        }}
       />
       <Stack.Screen
         name="StatesDetails"

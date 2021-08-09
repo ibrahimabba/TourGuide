@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, KeyboardAvoidingView, FlatList, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import Card from '../../components/Card';
 import env from '../../env';
@@ -33,7 +33,13 @@ const Places = ({ navigation }) => {
   const PlacesRenderItem = ({ item }) => {
     return (
       <Card style={styles.itemCard}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('PlaceDetails', {
+              titleName: `${item.name.slice(0, 29)}`,
+            });
+          }}
+        >
           <View
             style={{
               borderRadius: 10,
@@ -65,7 +71,7 @@ const Places = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <PlaceSearchComponent />
       <View style={styles.flatListsView}>
         <View style={styles.flatList}>
@@ -82,7 +88,7 @@ const Places = ({ navigation }) => {
           </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -15,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
         >
           <View style={styles.cardContent}>
             <AntDesign name="enviromento" size={34} color="black" />
-            <Text style={{ textAlign: 'center', width: '90%' }}>See the most interesting Destinations around you</Text>
+            <Text style={{ textAlign: 'center', width: '90%' }}>See Places around you and across the Globe</Text>
           </View>
         </TouchableOpacity>
       </Card>
