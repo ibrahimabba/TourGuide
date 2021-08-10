@@ -8,8 +8,20 @@ import { fetchPlaces } from '../../store/actions/googlelPlacesActions';
 import NoPhoto from '../../assets/Placeholder-small.png';
 import { useDispatch, useSelector } from 'react-redux';
 
-const PlaceDetails = ({ navigation }) => {
+const PlaceDetails = ({ navigation, route }) => {
+  const { place_id, types } = route.params;
   const googlePlacesReducer = useSelector((state) => state.googlePlacesReducer);
+
+  let place;
+
+  if (!googlePlacesReducer.isLoading) {
+    if (types.includes('restaurant') || types.includes('food') || types.includes('cafe') || types.includes('bar') || types.includes('liquor_store')) {
+      place = googlePlacesReducer.resturants.find((res) => res.place_id === place_id);
+    } else {
+      place = googlePlacesReducer.hotelsAndEstablishments.find((pl) => pl.place_id === place_id);
+    }
+  }
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

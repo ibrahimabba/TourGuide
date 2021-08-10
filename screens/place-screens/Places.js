@@ -5,7 +5,7 @@ import Card from '../../components/Card';
 import env from '../../env';
 import StarRating from 'react-native-star-rating';
 //import PlacesRenderItem from '../../components/PlacesRenderItem';
-import { fetchPlaces } from '../../store/actions/googlelPlacesActions';
+import { fetchPlaces, placeDetails } from '../../store/actions/googlelPlacesActions';
 import NoPhoto from '../../assets/Placeholder-small.png';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Location from 'expo-location';
@@ -35,8 +35,11 @@ const Places = ({ navigation }) => {
       <Card style={styles.itemCard}>
         <TouchableOpacity
           onPress={() => {
+            dispatch(placeDetails({ place_id: item.place_id, types: item.types }));
             navigation.navigate('PlaceDetails', {
               titleName: `${item.name.slice(0, 29)}`,
+              place_id: item.place_id,
+              types: item.types,
             });
           }}
         >
