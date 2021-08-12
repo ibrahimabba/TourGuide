@@ -22,12 +22,22 @@ const PlaceDetails = ({ navigation, route }) => {
     }
   }
 
+  const PlaceRenderItem = (item) => {
+    return (
+      <View style={styles.flatListItemView}>
+        <Image
+          style={{ width: 344, height: 215, marginHorizontal: 5, borderRadius: 5 }}
+          source={{
+            uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.item.photo_reference}&key=${env.googleApiKey}`,
+          }}
+        />
+      </View>
+    );
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View>
-        <Text>Place Details</Text>
-      </View>
+      <View style={styles.flatListView}>{place.photos ? <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={place.photos} renderItem={PlaceRenderItem} keyExtractor={(item) => item.photo_reference} /> : <Text>No photos</Text>}</View>
     </ScrollView>
   );
 };
@@ -36,9 +46,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: '5%',
+    padding: '2%',
     height: '100%',
+  },
+  flatListView: {
+    height: '40%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flatListItemView: {
+    // backgroundColor: 'orange',
+    // height: '50%',
+    // width: '50%',
   },
 });
 

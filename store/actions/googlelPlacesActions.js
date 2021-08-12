@@ -78,17 +78,18 @@ export const placeDetails = (data) => {
 
       if (data.types.includes('restaurant') || data.types.includes('food') || data.types.includes('cafe') || data.types.includes('bar') || data.types.includes('liquor_store')) {
         const updatedRest = getState().googlePlacesReducer.resturants.find((pl) => pl.place_id === data.place_id);
-
-        respData.result.photos.forEach((photo) => {
-          updatedRest['photos'].push(photo);
-        });
+        if (respData.result.photos) {
+          respData.result.photos.forEach((photo) => {
+            updatedRest.photos.push(photo);
+          });
+        }
         if (respData.result.opening_hours) updatedRest['opening_hours'].weekday_text = respData.result.opening_hours?.weekday_text;
         updatedRest.website = respData.result.website;
       } else {
         const updatedRest = getState().googlePlacesReducer.hotelsAndEstablishments.find((pl) => pl.place_id === data.place_id);
         if (respData.result.photos) {
           respData.result.photos.forEach((photo) => {
-            updatedRest['photos'].push(photo);
+            updatedRest.photos.push(photo);
           });
         }
         if (respData.result.opening_hours) updatedRest['opening_hours'].weekday_text = respData.result.opening_hours?.weekday_text;
