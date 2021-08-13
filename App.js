@@ -9,7 +9,7 @@ import ReduxThunk from 'redux-thunk';
 import { enableScreens } from 'react-native-screens';
 import authReducer from './store/reducers/authReducer';
 import { init, init2 } from './database/db';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import Navigator from './Navigation/Navigator';
 import ratings from './store/reducers/ratings';
 
@@ -43,6 +43,7 @@ function App() {
         onFinish={() => {
           setFontLoaded(true);
         }}
+        onError={console.warn}
       />
     );
   }
