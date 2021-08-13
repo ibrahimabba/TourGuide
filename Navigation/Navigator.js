@@ -45,7 +45,7 @@ const DrawerNavigator = (props) => {
           } else if (route.name === 'Home') {
             iconName = 'md-home';
           }
-          return <Ionicons name={iconName} size={25} color="#277c41" />;
+          return <Ionicons name={iconName} size={25} color="#082032" />;
         },
       })}
     >
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#277c41',
+    backgroundColor: '#082032',
     padding: 2,
     borderRadius: 14,
   },

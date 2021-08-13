@@ -38,6 +38,7 @@ const PlaceDetails = ({ navigation, route }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.flatListView}>{place.photos ? <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={place.photos} renderItem={PlaceRenderItem} keyExtractor={(item) => item.photo_reference} /> : <Text>No photos</Text>}</View>
+      
     </ScrollView>
   );
 };

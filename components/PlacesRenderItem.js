@@ -3,29 +3,41 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Card from './Card';
 import env from '../env';
 import StarRating from 'react-native-star-rating';
+import NoPhoto from '../assets/Placeholder-small.png';
+import { placeDetails } from '../store/actions/googlelPlacesActions';
 
-const PlacesRenderItem = ({ item }) => {
+const PlacesRenderItem = ({ element, navigation, dispatch }) => {
+  const item = element.item;
+
   return (
     <Card style={styles.itemCard}>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(placeDetails({ place_id: item.place_id, types: item.types }));
+          navigation.navigate('PlaceDetails', {
+            titleName: `${item.name.slice(0, 29)}`,
+            place_id: item.place_id,
+            types: item.types,
+          });
+        }}
+      >
         <View
           style={{
             borderRadius: 10,
             overflow: 'hidden',
           }}
         >
-          {/* <Image
-            style={{ width: 140, height: 100 }}
-            source={{
-              uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.photos[0].photo_reference}&key=${env.googleApiKey}`,
-            }}
-          /> */}
           <Image
             style={{ width: 140, height: 100 }}
-            source={{
-              uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=Aap_uECMmCO1LdM9VtnnnI8Asl8g7g9tSHzDDTf9HMHypLGSuq_x73gJoqg5deBlE20XE9SGWl5oku_gRRCxoiy4UVU-FrEsV5N3fzJbGejn3XNzYoQd-OY3BS04Q61xxXhT48Bqnr3Ogb8Acodm66TnSqfSMJ1nzGi5n6rJHwt7bhtdfdxn&key=${env.googleApiKey}`,
-            }}
+            source={
+              item.photos
+                ? {
+                    uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.photos[0].photo_reference}&key=${env.googleApiKey}`,
+                  }
+                : NoPhoto
+            }
           />
+
           <View style={styles.cardInfo}>
             <Text style={styles.name}>{item.name.slice(0, 29)}</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -58,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlacesRenderItem;
+export default React.memo(PlacesRenderItem);
