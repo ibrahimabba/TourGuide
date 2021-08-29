@@ -1,3 +1,3 @@
 # TourGuide
 
-This is a tourist information react native application that retrieves interesting places for a tourist, places such as nearby resturants, cafes, bars, hotels and establishments. It uses Expo location api for accessing the user location and google geocoding api for the conversion of the coordinates into physical address and also it uses Google places, Google place details, Google photos Apis for the places in addition to Mapbox api for the maps.
+TourGuide is a tourist information mobile application that provides interesting places for a tourist user, places such as nearby restaurants, cafes, bars, hotels and establishments. It uses Expo location API for accessing the user location and google geocoding API for the conversion of the coordinates into physical address and also it uses Google places, Google place details, Google photos API for the places in addition to Mapbox API for the maps.
