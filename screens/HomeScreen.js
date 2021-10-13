@@ -15,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
         >
           <View style={styles.cardContent}>
             <AntDesign name="enviromento" size={34} color="black" />
-            <Text style={{ textAlign: 'center', width: '90%' }}>See Places around you and across the Globe</Text>
+            <Text style={{ textAlign: 'center', width: '90%', fontFamily: 'open-sans' }}>See Places around you and across the Globe</Text>
           </View>
         </TouchableOpacity>
       </Card>
@@ -27,17 +27,21 @@ const HomeScreen = ({ navigation }) => {
         >
           <View style={styles.cardContent}>
             <AntDesign name="find" size={34} color="black" />
-            <Text style={{ textAlign: 'center', width: '90%' }}>Find the most interesting tourist Desitination across Nigeria</Text>
+            <Text style={{ textAlign: 'center', width: '90%', fontFamily: 'open-sans' }}>Find the most interesting tourist Desitination across Nigeria</Text>
           </View>
         </TouchableOpacity>
       </Card>
       <Card style={styles.card}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('weather');
+          }}
+        >
           <View style={styles.cardContent}>
             <View style={{ marginRight: '6%' }}>
               <MaterialCommunityIcons name="weather-lightning" size={34} color="black" />
             </View>
-            <Text style={{ textAlign: 'center', width: '80%' }}>View the current Weather of your location</Text>
+            <Text style={{ textAlign: 'center', width: '80%', fontFamily: 'open-sans' }}>View the current Weather of your location</Text>
           </View>
         </TouchableOpacity>
       </Card>

@@ -9,6 +9,7 @@ import Map from './Map';
 import HomeScreen from './HomeScreen';
 import Places from './place-screens/Places';
 import PlaceDetails from './place-screens/PlaceDetails';
+import WeatherHome from './weather/WeatherHome';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +41,7 @@ const MainStackNav = ({ navigation }) => {
               />
             </HeaderButtons>
           ),
-          title: 'Welcome to Tour9ja',
+          title: 'Welcome to TourGuide',
         })}
       />
       <Stack.Screen
@@ -82,6 +83,13 @@ const MainStackNav = ({ navigation }) => {
             title: titleName,
           };
         }}
+      />
+      <Stack.Screen
+        name="weather"
+        component={WeatherHome}
+        options={({}) => ({
+          title: 'Weather',
+        })}
       />
       <Stack.Screen name="Map" component={Map} />
     </Stack.Navigator>

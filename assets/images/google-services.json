@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "938773414753",
+    "project_id": "bookticket-84e40",
+    "storage_bucket": "bookticket-84e40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938773414753:android:383c568458ed2ba41c7b20",
+        "android_client_info": {
+          "package_name": "com.nova.soft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938773414753-9bl0bqomp397t6gq6p3fko14c8sbg6ff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE3dyLLEkEb5yMHaXuScB15iFp6GoiyE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938773414753-9bl0bqomp397t6gq6p3fko14c8sbg6ff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

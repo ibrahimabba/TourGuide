@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -51,6 +52,7 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Navigator />
+        <StatusBar style="light" />
       </NavigationContainer>
     </Provider>
   );

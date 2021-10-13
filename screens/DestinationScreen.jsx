@@ -21,7 +21,7 @@ const DestinationScreen = ({ route, navigation }) => {
       headerRight: () => (
         <TouchableWithoutFeedback onPress={() => dispatch(favoriteToggle(stateId, destinationId))}>
           <View style={{ paddingRight: 30 }}>
-            <Ionicons name={isFav ? 'ios-heart' : 'ios-heart-empty'} size={30} color={isFav ? 'white' : 'white'} />
+            <Ionicons name={isFav ? 'ios-heart-sharp' : 'ios-heart-outline'} size={30} color={isFav ? 'white' : 'white'} />
           </View>
         </TouchableWithoutFeedback>
       ),

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, FlatList } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { autoComplete, fetchPlaces } from '../store/actions/googlelPlacesActions';
 import env from '../env';
@@ -35,7 +35,7 @@ const PlaceSearchComponent = ({ navigation }) => {
   return (
     <>
       <View style={styles.textInputView}>
-        <AntDesign name="search1" size={24} color="black" />
+        <AntDesign name="search1" size={20} color="grey" />
         <TextInput
           onFocus={() => {
             setFocus((prevState) => !prevState);
@@ -48,19 +48,24 @@ const PlaceSearchComponent = ({ navigation }) => {
       </View>
       {googlePlacesReducer.placesAutoComplete.length > 0 && focus && (
         <View style={styles.resultsView}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {googlePlacesReducer.placesAutoComplete.map((item, i) => (
-              <TouchableOpacity
-                key={i}
-                style={styles.autoSearch}
-                onPress={() => {
-                  handleSelectPlace(item.description);
-                }}
-              >
-                <Text style={{ marginBottom: 15 }}>{item.description}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <FlatList
+            data={googlePlacesReducer.placesAutoComplete}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  style={styles.autoSearch}
+                  onPress={() => {
+                    handleSelectPlace(item.description);
+                  }}
+                >
+                  <Text style={{ fontFamily: 'open-sans' }}>{item.description}</Text>
+                </TouchableOpacity>
+              );
+            }}
+            keyExtractor={(item, i) => i.toString()}
+            ItemSeparatorComponent={() => <View style={{ height: '1%', width: '100%', backgroundColor: 'grey' }}></View>}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
       )}
     </>
@@ -76,6 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: '10%',
+    //position: 'absolute',
   },
 
   searchText: {
@@ -87,19 +93,15 @@ const styles = StyleSheet.create({
     width: '85%',
     borderRadius: 5,
     position: 'absolute',
-    marginTop: '20%',
+    marginTop: '15%',
     zIndex: 1,
   },
   autoSearch: {
     backgroundColor: '#FFFFFF',
-    height: '14%',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    marginVertical: 5,
-    borderBottomColor: '#F2F2F2',
-    borderBottomWidth: 2,
   },
 });
 

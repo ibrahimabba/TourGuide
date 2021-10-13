@@ -18,9 +18,9 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = (props) => {
   const token = useSelector((state) => state.authReducer.token);
   const dispatch = useDispatch();
-  // if (token == null) {
-  //   return <Authentication />;
-  // }
+  if (token == null) {
+    return <Authentication />;
+  }
 
   return (
     <Drawer.Navigator

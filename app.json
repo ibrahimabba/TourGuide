@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Tour9ja",
-    "slug": "Tour9ja",
+    "name": "TourGuide",
+    "slug": "TourGuide",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -13,7 +13,7 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -23,7 +23,18 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.novaSoft.TourGuide",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.novaSoft.TourGuide",
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDva6IyD6BXJ_68zQb3ud4LaVowGgG4dqQ"
+        }
+      }
     }
   }
 }

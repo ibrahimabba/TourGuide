@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, KeyboardAvoidingView, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Image, KeyboardAvoidingView, FlatList, ActivityIndicator } from 'react-native';
 import PlacesRenderItem from '../../components/PlacesRenderItem';
 import { fetchPlaces } from '../../store/actions/googlelPlacesActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,27 +29,26 @@ const Places = ({ navigation }) => {
     <KeyboardAvoidingView style={styles.container}>
       <PlaceSearchComponent />
       <View style={styles.flatListsView}>
-        <View style={styles.flatList}>
-          <Text style={styles.flatListHeaderText}>Nearby Hotels and Establishments</Text>
-
-          <View style={styles.flatListCont}>
-            {googlePlacesReducer.isLoading ? (
-              <ActivityIndicator color={'#F2F2F2'} size={'large'} />
-            ) : (
-              <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.hotelsAndEstablishments} renderItem={(item) => <PlacesRenderItem dispatch={dispatch} element={item} navigation={navigation} />} keyExtractor={(item) => item.place_id} />
-            )}
+        {googlePlacesReducer.isLoading ? (
+          <View style={{ marginTop: '67%' }}>
+            <ActivityIndicator color={'black'} size="large" />
           </View>
-        </View>
-        <View style={styles.flatList}>
-          <Text style={styles.flatListHeaderText}>Nearby Resturants and Cafes</Text>
-          <View style={styles.flatListCont}>
-            {googlePlacesReducer.isLoading ? (
-              <ActivityIndicator color={'#F2F2F2'} size={'large'} />
-            ) : (
-              <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.resturants} renderItem={(item) => <PlacesRenderItem dispatch={dispatch} element={item} navigation={navigation} />} keyExtractor={(item) => item.place_id} />
-            )}
-          </View>
-        </View>
+        ) : (
+          <>
+            <View style={styles.flatList}>
+              <Text style={styles.flatListHeaderText}>Nearby Hotels and Establishments</Text>
+              <View style={styles.flatListCont}>
+                <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.hotelsAndEstablishments} renderItem={(item) => <PlacesRenderItem dispatch={dispatch} element={item} navigation={navigation} />} keyExtractor={(item) => item.place_id} />
+              </View>
+            </View>
+            <View style={styles.flatList}>
+              <Text style={styles.flatListHeaderText}>Nearby Resturants and Cafes</Text>
+              <View style={styles.flatListCont}>
+                <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={googlePlacesReducer.resturants} renderItem={(item) => <PlacesRenderItem dispatch={dispatch} element={item} navigation={navigation} />} keyExtractor={(item) => item.place_id} />
+              </View>
+            </View>
+          </>
+        )}
       </View>
     </KeyboardAvoidingView>
   );
@@ -60,6 +59,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     alignItems: 'center',
     padding: '2%',
+    flex: 1,
+    //height: '150%',
   },
   textInputView: {
     backgroundColor: '#F2F2F2',
@@ -81,6 +82,8 @@ const styles = StyleSheet.create({
   },
   flatListHeaderText: {
     marginBottom: '3%',
+    fontFamily: 'open-sans-bold',
+    marginLeft: '3%',
   },
   flatList: {
     width: '100%',

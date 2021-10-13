@@ -4,6 +4,7 @@ export const START_LOADING = 'START_LOADING';
 export const STOP_LOADING = 'STOP_LOADING';
 export const ERORR = 'ERROR';
 export const AUTO_ERORR = 'AUTO_ERROR';
+export const FETCH_DETAILS = 'FETCH_DETAILS';
 
 import env from '../../env';
 
@@ -48,6 +49,7 @@ export const fetchPlaces = (data) => {
       dispatch({ type: FETCH_PLACES, payload: { hotelsAndEstablishments, resturants } });
       dispatch({ type: STOP_LOADING });
     } catch (error) {
+      dispatch({ type: STOP_LOADING });
       dispatch({ type: ERORR });
     }
   };
@@ -71,31 +73,31 @@ export const autoComplete = (data) => {
 };
 
 export const placeDetails = (data) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
+      dispatch({ type: START_LOADING });
       const response = await fetch('https://maps.googleapis.com/maps/api/place/details/json?place_id=' + data.place_id + '&key=' + env.googleApiKey);
       const respData = await response.json();
 
-      if (data.types.includes('restaurant') || data.types.includes('food') || data.types.includes('cafe') || data.types.includes('bar') || data.types.includes('liquor_store')) {
-        const updatedRest = getState().googlePlacesReducer.resturants.find((pl) => pl.place_id === data.place_id);
-        if (respData.result.photos) {
-          respData.result.photos.forEach((photo) => {
-            updatedRest.photos.push(photo);
-          });
-        }
-        if (respData.result.opening_hours) updatedRest['opening_hours'].weekday_text = respData.result.opening_hours?.weekday_text;
-        updatedRest.website = respData.result.website;
-      } else {
-        const updatedRest = getState().googlePlacesReducer.hotelsAndEstablishments.find((pl) => pl.place_id === data.place_id);
-        if (respData.result.photos) {
-          respData.result.photos.forEach((photo) => {
-            updatedRest.photos.push(photo);
-          });
-        }
-        if (respData.result.opening_hours) updatedRest['opening_hours'].weekday_text = respData.result.opening_hours?.weekday_text;
-        updatedRest.website = respData.result.website;
-      }
+      let result = respData.result;
+
+      const placeDetails = {
+        place_id: result.place_id,
+        name: result.name,
+        rating: result.rating,
+        vicinity: result.vicinity,
+        reference: result.reference,
+        opening_hours: result.opening_hours,
+        photos: result.photos,
+        types: result.types,
+        reviews: result.reviews,
+        website: result.website,
+        location: result.geometry.location,
+      };
+      dispatch({ type: FETCH_DETAILS, payload: placeDetails });
+      dispatch({ type: STOP_LOADING });
     } catch (error) {
+      dispatch({ type: STOP_LOADING });
       dispatch({ type: AUTO_ERORR });
       console.log(error);
     }

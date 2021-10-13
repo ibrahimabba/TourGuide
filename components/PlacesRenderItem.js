@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   },
   name: {
     width: 110,
+    fontFamily: 'open-sans',
   },
 });
 
