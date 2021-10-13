@@ -24,7 +24,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.novaSoft.TourGuide",
-      "buildNumber": "1.0.0",
+      "buildNumber": "2.0.0",
       "supportsTablet": true
     },
     "android": {
