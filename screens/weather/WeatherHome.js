@@ -58,11 +58,11 @@ const WeatherHome = ({ navigation }) => {
           </View>
           <View style={{ marginTop: '10%' }}>
             <View>
-              <Text style={{ color: '#FFFFFF', fontSize: 40, position: 'absolute', left: '50%' }}>{currentWeather?.main.temp}</Text>
+              <Text style={{ color: '#FFFFFF', fontSize: 36, position: 'absolute', left: '0%' }}>{currentWeather?.main.temp}</Text>
               <Text style={{ color: '#FFFFFF', position: 'absolute', left: '97%', top: '15%', fontSize: 15 }}>o</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: '60%' }}>
-              <Text style={{ color: '#FFFFFF', fontSize: 15, marginTop: '7%' }}>Feels like</Text>
+              <Text style={{ color: '#FFFFFF', fontSize: 15, marginTop: '6%' }}>Feels like</Text>
               <View style={{ marginLeft: '2%' }}>
                 <Text style={{ color: '#FFFFFF', fontSize: 15, marginTop: '18%' }}>{currentWeather?.main.feels_like}</Text>
                 <Text style={{ color: '#FFFFFF', position: 'absolute', left: '98%', top: '4%', fontSize: 10 }}>o</Text>
