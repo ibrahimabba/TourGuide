@@ -11,20 +11,14 @@ const WelcomeScreen = (props) => {
           <View style={styles.mainText}>
             <Text
               style={{
-                fontSize: 40,
+                fontSize: 35,
                 marginLeft: 0,
                 color: '#71cd3c',
                 fontFamily: 'open-sans-bold',
+                marginTop: '140%',
               }}
             >
-              Tour Nija
-            </Text>
-          </View>
-          <View style={styles.text}>
-            <Text
-              style={{ color: '#fff', fontSize: 18, fontFamily: 'open-sans' }}
-            >
-              Welcome to Nigeria's number one Tourist Destinations{' '}
+              TourGuide
             </Text>
           </View>
         </View>

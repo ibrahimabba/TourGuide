@@ -1,28 +1,16 @@
-import React, { useLayoutEffect, useState, useRef } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Button,
-  TouchableOpacity
-} from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { StyleSheet, View, Text, Image, ScrollView, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { favoriteToggle } from '../store/actions/favorite';
 import { Ionicons } from '@expo/vector-icons';
-import env from '../env';
 
 const DestinationScreen = ({ route, navigation }) => {
   const { destination, stateId, destinationId } = route.params;
 
-  const places = useSelector(state => state.placesreducer.places);
+  const places = useSelector((state) => state.placesreducer.places);
 
-  const stateIndex = places.findIndex(place => place.id == stateId);
-  const destIndex = places[stateIndex].destinations.findIndex(
-    dest => dest.id == destinationId
-  );
+  const stateIndex = places.findIndex((place) => place.id == stateId);
+  const destIndex = places[stateIndex].destinations.findIndex((dest) => dest.id == destinationId);
 
   const isFav = places[stateIndex].destinations[destIndex].favorite;
 
@@ -31,18 +19,12 @@ const DestinationScreen = ({ route, navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableWithoutFeedback
-          onPress={() => dispatch(favoriteToggle(stateId, destinationId))}
-        >
+        <TouchableWithoutFeedback onPress={() => dispatch(favoriteToggle(stateId, destinationId))}>
           <View style={{ paddingRight: 30 }}>
-            <Ionicons
-              name={isFav ? 'ios-heart' : 'ios-heart-empty'}
-              size={30}
-              color={isFav ? 'white' : 'white'}
-            />
+            <Ionicons name={isFav ? 'ios-heart-sharp' : 'ios-heart-outline'} size={30} color={isFav ? 'white' : 'white'} />
           </View>
         </TouchableWithoutFeedback>
-      )
+      ),
     });
   }, [navigation, stateId, destinationId, isFav]);
   return (
@@ -57,7 +39,7 @@ const DestinationScreen = ({ route, navigation }) => {
                   height: 250,
                   width: 350,
                   borderRadius: 0,
-                  margin: 5
+                  margin: 5,
                 }}
                 source={imageUri}
               />
@@ -74,14 +56,14 @@ const DestinationScreen = ({ route, navigation }) => {
           onPress={() =>
             navigation.navigate('Map', {
               long: destination.longitude,
-              lat: destination.latitude
+              lat: destination.latitude,
             })
           }
         >
           <Image
             style={{ width: 390, height: 300, borderRadius: 10 }}
             source={{
-              uri: staticMap
+              uri: staticMap,
             }}
           />
         </TouchableOpacity>
@@ -100,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     margin: 5,
-    borderRadius: 10
+    borderRadius: 10,
   },
   card2: {
     shadowColor: 'black',
@@ -111,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 5,
     margin: 5,
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
 });
 export default DestinationScreen;

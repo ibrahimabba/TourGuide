@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import placesReducers from './store/reducers/placesReducers';
+import googlePlacesReducer from './store/reducers/googlePlacesReducers';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import { enableScreens } from 'react-native-screens';
 import authReducer from './store/reducers/authReducer';
 import { init, init2 } from './database/db';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import Navigator from './Navigation/Navigator';
 import ratings from './store/reducers/ratings';
 
@@ -21,6 +23,7 @@ const rootReducer = combineReducers({
   placesreducer: placesReducers,
   authReducer: authReducer,
   ratingReducer: ratings,
+  googlePlacesReducer: googlePlacesReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
@@ -41,6 +44,7 @@ function App() {
         onFinish={() => {
           setFontLoaded(true);
         }}
+        onError={console.warn}
       />
     );
   }
@@ -48,6 +52,7 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Navigator />
+        <StatusBar style="light" />
       </NavigationContainer>
     </Provider>
   );

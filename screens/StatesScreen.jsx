@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ImageBackground,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-} from 'react-native';
-import Constants from 'expo-constants';
+import { StyleSheet, Text, View, FlatList, ImageBackground, TouchableOpacity, SafeAreaView } from 'react-native';
+
 import { useSelector } from 'react-redux';
 
 const RenderdStates = ({ item, navigation }) => {
@@ -54,14 +45,7 @@ const StatesScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={places}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <RenderdStates navigation={navigation} item={item} />
-        )}
-        numColumns={2}
-      />
+      <FlatList data={places} keyExtractor={(item, index) => index.toString()} renderItem={({ item }) => <RenderdStates navigation={navigation} item={item} />} numColumns={2} />
     </SafeAreaView>
   );
 };
